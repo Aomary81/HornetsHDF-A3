@@ -2,6 +2,7 @@ C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main
 C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\gameobjects\Building.java
 C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\views\MapView.java
 C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\gameobjects\Helicopter.java
+C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\gameobjects\parts\Arc.java
 C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\commands\Brake.java
 C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\commands\TurnRight.java
 C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\gameobjects\Movable.java
@@ -14,13 +15,14 @@ C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main
 C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\commands\Accelerate.java
 C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\gameobjects\River.java
 C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\Game.java
-C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\interfaces\Drawable.java
+C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\gameobjects\parts\Lines.java
 C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\views\GlassCockpit.java
 C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\gameobjects\FireCollection.java
 C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\gameobjects\Fixed.java
 C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\gameobjects\Helipad.java
 C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\views\ControlCluster.java
 C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\interfaces\Burning.java
+C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\gameobjects\parts\Rectangle.java
 C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\gameobjects\GameObject.java
 C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\interfaces\Extinguished.java
 C:\Users\Aaron\OneDrive\Desktop\School\school work\HornetsHDF-A3\common\src\main\java\org\csc133\a3\gameobjects\GameObjectCollection.java

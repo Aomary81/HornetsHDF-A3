@@ -1,213 +1,299 @@
 package org.csc133.a3.gameobjects;
 
 import com.codename1.charts.util.ColorUtil;
-import com.codename1.ui.Font;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.geom.Point;
-import com.codename1.ui.geom.Point2D;
+import org.csc133.a3.gameobjects.parts.Arc;
+import org.csc133.a3.gameobjects.parts.Lines;
+import org.csc133.a3.gameobjects.parts.Rectangle;
 import org.csc133.a3.interfaces.Steerable;
 
 import java.util.ArrayList;
 
-import static com.codename1.ui.CN.*;
-
 public class Helicopter extends GameObject implements Steerable {
-    private Point2D turning;
-    private Point2D forwardPoints;
-    private int fuel, currentIndex;
-    private static int speed;
-    private int water;
-    private ArrayList<Point2D> turn, forward;
+    final static int BUBBLE_RADIUS = 125;
+    final static int ENGINE_BLOCK_WIDTH = (int)(BUBBLE_RADIUS*1.8);
+    final static int ENGINE_BLOCK_HEIGHT = (ENGINE_BLOCK_WIDTH/3);
+    final static int BLADE_WIDTH = 25;
+    final static int BLADE_LENGTH = BUBBLE_RADIUS * 5;
+    final static int RAIL_WIDTH = 25;
+    final static int RAIL_LENGTH = (int) (BLADE_LENGTH/1.8);
+    final static int LEG_WIDTH = 50;
+    final static int LEG_HEIGHT = 10;
+    final static int TAIL_WIDTH = 10;
+    final static int TAIL_HEIGHT = (int) (RAIL_LENGTH*0.85);
 
-    public Helicopter(Dimension worldSize) {
-        this.worldSize = worldSize;
-        this.color = ColorUtil.YELLOW;
-        this.dimension = new Dimension(50, 50);
-        this.location = new Point2D(worldSize.getWidth()/2,
-                worldSize.getHeight());
-        turn = new ArrayList<>();
-        currentIndex = 0;
-        fuel = 25000;
-        for (int i = 1; i < 25; i++) {
-            double angle = Math.toRadians(360 / 24 * i - 105);
-            turning = new Point2D(Math.cos(angle), Math.sin(angle));
-            turn.add(turning);
-        }
-
-    }
-
-    // Changes the direction the helicopter is pointing
-    public void move() {
-        location.setX(location.getX() + (turn.get(currentIndex).getX()
-                * speed));
-        location.setY(location.getY() +
-                (turn.get(currentIndex).getY() * speed));
-
-    }
-
-    // Uses the turn ArrayList to change direction
-    public void turningR() {
-        currentIndex++;
-        if (currentIndex > turn.size() - 1) {
-            currentIndex = 0;
+    //````````````````````````````````````````````````````````````````````````
+    private static class HeloBubble extends Arc {
+        public HeloBubble(){
+            super(ColorUtil.YELLOW,
+                    2*Helicopter.BUBBLE_RADIUS,
+                    2*Helicopter.BUBBLE_RADIUS,
+                    0,(float) (2*Helicopter.BUBBLE_RADIUS*0.20),
+                    1,1,
+                    0,
+                    135,270);
         }
     }
 
-    // Uses the turn ArrayList to change direction
-    public void turningL() {
-        if (currentIndex == 0) {
-            currentIndex = turn.size() - 1;
-        }
-        currentIndex--;
-    }
+    //````````````````````````````````````````````````````````````````````````
 
-    // changes the speed of the helicopter
-    public static void accelerate() {
-        if (speed >= 0 && speed < 10) {
-            speed++;
-        } else {
-            speed = 10;
+    private static class HeloEngineBlock extends Rectangle {
+        public HeloEngineBlock(){
+            super(ColorUtil.YELLOW,
+                    Helicopter.ENGINE_BLOCK_WIDTH,
+                    Helicopter.ENGINE_BLOCK_HEIGHT,
+                    (float)(-Helicopter.ENGINE_BLOCK_WIDTH/2),
+                    (float)(-Helicopter.ENGINE_BLOCK_HEIGHT*1.5),
+                    1,1, 0);
         }
     }
 
-    // changes the speed of the helicopter
-    public static void decelerate() {
-        if (speed > 0) {
-            speed--;
-        } else {
-            speed = 0;
-        }
-    }
-    public static int getSpeed() {
-        return speed;
-    }
-    // Changes the fuel level
-    public int fuelConsumption() {
-        fuel = fuel - ((speed * speed) + 5);
+    //````````````````````````````````````````````````````````````````````````
 
-        if (fuel <= 0) {
-            fuel = 0;
+    private static class HeloBlade extends Rectangle{
+        public HeloBlade(){
+            super(ColorUtil.GRAY,
+                    BLADE_LENGTH, BLADE_WIDTH,
+                    -BLADE_LENGTH/2, -ENGINE_BLOCK_HEIGHT-(BLADE_WIDTH/2),
+                    1,1,0);
         }
-        return fuel;
-    }
 
-    // Command method to pick up Water
-    public void drinkWater() {
-        if (speed < 3) {
-            water = water + 100;
-        }
-        if (water >= 1000) {
-            water = 1000;
-        }
-    }
-    public int heading(){
-        return currentIndex * 15;
-    }
-
-    // Checks to see if center of helicopter is over the river
-    public boolean overRiver(River r) {
-        if ((r.getRiverNorth() < getHelicopterLocationY()) &&
-                (r.getRiverSouth() - dimension.getWidth() / 2
-                        > getHelicopterLocationY())) {
-            return true;
-        } else {
-            return false;
+        public void updateLocalTransforms(double rotationSpeed){
+            this.rotate(rotationSpeed);
         }
     }
 
-    // Check is helicopter is over the fire
-    public boolean overFire(Fire f) {
-        if ((f.getFireX() < (getHelicopterLocationX() + dimension.getWidth()/2) &&
-                ((f.getFireX() + f.getFireSize()) > (getHelicopterLocationX() + dimension.getWidth()/2))
-                && (f.getFireY() < (getHelicopterLocationY() + dimension.getHeight()/2))
-                && (((f.getFireY() + f.getFireSize())
-                > (getHelicopterLocationY() + dimension.getHeight()/2))))) {
-            return true;
-        } else {
-            return false;
+    //````````````````````````````````````````````````````````````````````````
+
+    private static class HeloBladeShaft extends Arc{
+        public HeloBladeShaft(){
+            super(ColorUtil.WHITE,
+                    2 * Helicopter.BLADE_WIDTH / 3,
+                    2 * Helicopter.BLADE_WIDTH / 3,
+                    0, -Helicopter.ENGINE_BLOCK_HEIGHT,
+                    1, 1,
+                    0,
+                    0,
+                    360);
         }
     }
 
-    // Check to see if Helicopter is over the Helipad
-    public boolean isOverHelipad(Helipad pad) {
-        return (pad.getHelipadX() < getHelicopterLocationX()) &&
-                ((pad.getHelipadX() + pad.getHelipadSize())
-                        > getHelicopterLocationX()) &&
-                (pad.getHelipadY() < getHelicopterLocationY()) &&
-                ((pad.getHelipadY() + pad.getHelipadSize())
-                        > getHelicopterLocationY()) &&
-                (speed == 0);
+    //````````````````````````````````````````````````````````````````````````
+
+    private static class HeloRail extends Rectangle{
+        public HeloRail(float side){
+            super(ColorUtil.YELLOW,
+                    Helicopter.RAIL_WIDTH, Helicopter.RAIL_LENGTH,
+                    side*Helicopter.RAIL_LENGTH/2, -Helicopter.RAIL_LENGTH/2,
+                    1,1,0);
+        }
+    }
+    //````````````````````````````````````````````````````````````````````````
+    private static class HeloUpperLeg extends Rectangle{
+        public HeloUpperLeg(float side){
+            super(ColorUtil.GRAY,
+                    Helicopter.LEG_WIDTH, Helicopter.LEG_HEIGHT,
+                    (float) (side*Helicopter.ENGINE_BLOCK_WIDTH/2
+                            + side*Helicopter.LEG_WIDTH/2),
+                    Helicopter.BUBBLE_RADIUS - Helicopter.LEG_HEIGHT,
+                    1,1,0);
+        }
     }
 
-    // Current Water Level
-    public int getWaterLevel() {
-        return water;
+    //````````````````````````````````````````````````````````````````````````
+
+    private static class HeloLowerLeg extends Rectangle{
+        public HeloLowerLeg(float side){
+            super(ColorUtil.GRAY,
+                    Helicopter.LEG_WIDTH, Helicopter.LEG_HEIGHT,
+                    side*Helicopter.ENGINE_BLOCK_WIDTH/2
+                            + side*Helicopter.LEG_WIDTH/2,
+                    -Helicopter.ENGINE_BLOCK_HEIGHT,
+                    1,1,0);
+        }
     }
 
-    // Drops all water of fire
-    public void fightFire() {
-        water = 0;
+    //````````````````````````````````````````````````````````````````````````
+
+    private static class HeloTailTop extends Rectangle{
+        public HeloTailTop(){
+            super(ColorUtil.GREEN,
+                    Helicopter.TAIL_WIDTH, Helicopter.TAIL_HEIGHT,
+                    (float)(-Helicopter.TAIL_WIDTH/2),
+                    (float)((-Helicopter.TAIL_HEIGHT
+                            - (Helicopter.ENGINE_BLOCK_WIDTH/2))),
+                    1,1,
+                    0);
+        }
     }
 
-    public int getHelicopterLocationX(){
-        return (int)location.getX() - dimension.getWidth() / 2;
+    //````````````````````````````````````````````````````````````````````````
+
+    private static class HeloTailSide extends Lines {
+        public HeloTailSide(float side){
+            super(ColorUtil.rgb(255,0,0),
+                    0,0,
+                    (int)side*Helicopter.ENGINE_BLOCK_WIDTH/8,
+                    -Helicopter.TAIL_HEIGHT,
+                    (float)-side*(Helicopter.ENGINE_BLOCK_WIDTH/4),
+                    (float)-(Helicopter.ENGINE_BLOCK_HEIGHT*1.5),
+                    1,1,
+                    0);
+        }
     }
-    public int getHelicopterLocationY(){
-        return (int)location.getY() - dimension.getWidth()/2 -
-                (dimension.getWidth()*4);
+
+    //````````````````````````````````````````````````````````````````````````
+
+    private static class HeloRearRotorBox extends Rectangle{
+        public HeloRearRotorBox(){
+            super(ColorUtil.BLUE,
+                    Helicopter.TAIL_WIDTH*3,
+                    Helicopter.TAIL_WIDTH*3,
+                    0, -Helicopter.TAIL_HEIGHT*2
+                            + Helicopter.ENGINE_BLOCK_HEIGHT*2
+                            + Helicopter.TAIL_WIDTH*3,
+                    1,1,0);
+        }
+    }
+    //````````````````````````````````````````````````````````````````````````
+
+    private static class HeloRearRotorConnector extends Rectangle{
+        public HeloRearRotorConnector(){
+            super(ColorUtil.MAGENTA,
+                    Helicopter.TAIL_WIDTH*4,
+                    (int) (Helicopter.TAIL_WIDTH*1.5),
+                    Helicopter.TAIL_WIDTH*3, -Helicopter.TAIL_HEIGHT*2
+                            + Helicopter.ENGINE_BLOCK_HEIGHT*3
+                            + Helicopter.TAIL_WIDTH*3 - 3,
+                    1,1,0);
+        }
+    }
+
+
+    //````````````````````````````````````````````````````````````````````````
+
+    private static class HeloRearRotor extends Rectangle{
+        public HeloRearRotor(){
+            super(ColorUtil.YELLOW,
+                    Helicopter.TAIL_WIDTH*2,
+                    Helicopter.TAIL_WIDTH*10,
+                    Helicopter.TAIL_WIDTH*6, -Helicopter.TAIL_HEIGHT*2
+                            + Helicopter.ENGINE_BLOCK_HEIGHT*2
+                            + Helicopter.TAIL_WIDTH*3,
+                    1,1,0);
+        }
+    }
+
+    //````````````````````````````````````````````````````````````````````````
+
+    private class HeloText extends Rectangle{
+        public HeloText(){
+            super(ColorUtil.YELLOW,
+                    Helicopter.RAIL_WIDTH, Helicopter.RAIL_LENGTH,
+                    Helicopter.RAIL_LENGTH/2, 0,
+                    5,-5,0);
+        }
+    }
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    private ArrayList<GameObject> heloParts;
+
+    private HeloBlade heloBlade;
+
+    public Helicopter(Point lZ){
+        setColor(ColorUtil.YELLOW);
+        heloParts = new ArrayList<>();
+
+        heloParts.add(new HeloBubble());
+        heloParts.add(new HeloEngineBlock());
+        heloParts.add(new HeloRail(-1)); // Left
+        heloParts.add(new HeloRail(1)); // Right
+        heloParts.add(new HeloUpperLeg(-1)); // Left
+        heloParts.add(new HeloUpperLeg(1)); // Right
+        heloParts.add(new HeloLowerLeg(-1)); // Left
+        heloParts.add(new HeloLowerLeg(1)); // Right
+
+        heloParts.add(new HeloTailTop());
+        heloParts.add(new HeloTailSide(-1));
+        heloParts.add(new HeloTailSide(1));
+        heloParts.add(new HeloRearRotorConnector());
+        heloParts.add(new HeloRearRotorBox());
+        heloParts.add(new HeloRearRotor());
+
+        heloBlade = new HeloBlade();
+        heloParts.add(heloBlade);
+        heloParts.add(new HeloBladeShaft());
+        translate(lZ.getX(),
+                lZ.getY());
+        scale(1,1);
+
     }
 
     @Override
-    public void draw(Graphics g, Point containerOrigin) {
-        g.setColor(color);
-        g.fillArc(containerOrigin.getX() + (int)location.getX() -
-                        dimension.getWidth() / 2,
-                containerOrigin.getY() +
-                        (int)location.getY() - dimension.getWidth()/2 -
-                        (dimension.getWidth()*4),
-                (dimension.getWidth()),
-                (dimension.getWidth()), 0,360);
-        g.drawLine(containerOrigin.getX() + (int)location.getX(),
-                containerOrigin.getY() + (int)location.getY() -
-                        (dimension.getWidth()*4),
-                (int)(containerOrigin.getX() + (int)location.getX() +
-                        (turn.get(currentIndex).getX()
-                                * (dimension.getWidth()*2))),
-                (int)(containerOrigin.getY() + (int)location.getY() -
-                        (dimension.getWidth()*4) +
-                        (turn.get(currentIndex).getY()
-                                * (dimension.getWidth()*2))));
-        g.setFont(Font.createSystemFont(FACE_MONOSPACE, STYLE_BOLD,
-                SIZE_MEDIUM));
-        g.drawString("f: " + fuel, containerOrigin.getX()
-                        + (int)location.getX() -
-                        dimension.getWidth() / 2,
-                containerOrigin.getY() +
-                        (int)location.getY() - dimension.getWidth()/2 -
-                        (dimension.getWidth()*4) + dimension.getWidth());
-        g.drawString("w: " + water, containerOrigin.getX()
-                        + (int)location.getX() -
-                        dimension.getWidth() / 2,
-                containerOrigin.getY() +
-                        (int)location.getY() - dimension.getWidth()/2 -
-                        (dimension.getWidth()*4) + dimension.getWidth() + 20);
+    public void localDraw(Graphics g, Point parentOrigin,
+                          Point screenOrigin){
+        for(GameObject go : heloParts){
+            go.draw(g, parentOrigin, screenOrigin);
+        }
     }
 
+    public void heloBladeUpdate(double currentSpeed){
+        heloBlade.updateLocalTransforms(currentSpeed);
+    }
+
+    public void addHeloText(){
+        heloParts.add(new HeloText());
+    }
     @Override
     public void steerLeft() {
-        if (currentIndex == 0) {
-            currentIndex = turn.size() - 1;
-        }
-        currentIndex--;
-    }
 
+    }
 
     @Override
     public void steerRight() {
-        currentIndex++;
-        if (currentIndex > turn.size() - 1) {
-            currentIndex = 0;
+
+    }
+    public void accelerate(){
+//        heloState.accelerate();
+    }
+    public void startOrStopEngine(){
+//        heloState.startOrStopEngine();
+    }
+    public void move(){
+        //super.move();
+    }
+    public void adjustSpeed(int speedChange){
+        //super.adjustSpeed(speedChange);
+    }
+    public void setDimension(Dimension dimension){
+        super.setDimension(dimension);
+    }
+    public int getColor(){
+        return ColorUtil.YELLOW;
+    }
+    @Override
+    public int getWidth(){
+        //int width = 250;
+        return 250;
+    }
+    @Override
+    public int getHeight(){
+        //int height = 250;
+        return 250;
+    }
+
+    @Override
+    public void updateLocalTransforms() {
+        heloBlade.updateLocalTransforms();
+
+    }
+
+    @Override
+    public void steer(int steer) {
+        if (steer < 0){
+            //this.setHeading(steer);
         }
     }
 }
+

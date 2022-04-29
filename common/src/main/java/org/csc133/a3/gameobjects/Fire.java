@@ -23,7 +23,7 @@ public class Fire extends Fixed {
         r = new Random();
         fireSize = 3 + r.nextInt(4);
         this.worldSize = worldSize;
-        this.color = ColorUtil.MAGENTA;
+        setColor(ColorUtil.MAGENTA);
         this.location = new Point2D(0,0);
         this.dimension = new Dimension(fireSize, fireSize);
 
@@ -63,18 +63,20 @@ public class Fire extends Fixed {
     }
 
     @Override
-    public void draw(Graphics g, Point containerOrigin) {
-        g.setColor(color);
-        g.fillArc(containerOrigin.getX() + (int) location.getX(),
-                containerOrigin.getY() + (int) location.getY(),
+    public void localDraw(Graphics g, Point parentOrigin,
+                          Point screenOrigin){
+        g.setColor(getColor());
+        g.fillArc(parentOrigin.getX() + (int) location.getX(),
+                parentOrigin.getY() + (int) location.getY(),
                 fireSize/2, fireSize/2, 0, 360);
         g.setFont(Font.createSystemFont(FACE_MONOSPACE, STYLE_BOLD,
                 SIZE_MEDIUM));
         g.drawString("" + fireSize,
-                containerOrigin.getX() + (int) location.getX()
+                parentOrigin.getX() + (int) location.getX()
                         + (fireSize/4 * 3),
-                containerOrigin.getY() + (int) location.getY()
+                parentOrigin.getY() + (int) location.getY()
                         + (fireSize/4 * 3));
+
     }
     public void setState(FireState state){
         this.state = state;
@@ -82,5 +84,10 @@ public class Fire extends Fixed {
 
     public void getState(){
         this.state.nextState(this);
+    }
+
+    @Override
+    public void updateLocalTransforms() {
+
     }
 }

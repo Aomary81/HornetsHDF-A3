@@ -11,7 +11,7 @@ public class Helipad extends Fixed{
 
     public Helipad(Dimension worldSize) {
         this.worldSize = worldSize;
-        this.color = ColorUtil.GRAY;
+        setColor(ColorUtil.GRAY);
         this.dimension = new Dimension(200, 200);
         this.location = new Point2D(worldSize.getWidth()/2,
                 worldSize.getHeight());
@@ -32,17 +32,20 @@ public class Helipad extends Fixed{
     }
 
     @Override
-    public void draw(Graphics g, Point containerOrigin) {
-        g.setColor(color);
-        g.drawArc(containerOrigin.getX() + (int)location.getX()
+    public void updateLocalTransforms() {
+    }
+    @Override
+    public void localDraw(Graphics g, Point parentOrigin, Point screenOrigin) {
+        g.setColor(getColor());
+        g.drawArc(parentOrigin.getX() + (int)location.getX()
                         - (dimension.getWidth()/8 *3),
-                containerOrigin.getY() +
+                parentOrigin.getY() +
                         (int)location.getY() - dimension.getWidth()/2 -
                         dimension.getWidth() + dimension.getWidth()/8,
                 (dimension.getWidth() - 50),
                 (dimension.getWidth() - 50), 0,360);
-        g.drawRect(containerOrigin.getX() + (int)location.getX() -
-                        dimension.getWidth()/2, containerOrigin.getY() +
+        g.drawRect(parentOrigin.getX() + (int)location.getX() -
+                        dimension.getWidth()/2, parentOrigin.getY() +
                         (int)location.getY() - dimension.getWidth()/2 -
                         dimension.getWidth(), dimension.getWidth(),
                 dimension.getWidth(), 5);

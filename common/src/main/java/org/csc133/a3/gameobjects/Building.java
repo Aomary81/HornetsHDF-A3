@@ -20,7 +20,7 @@ public class Building extends Fixed{
         damage = 0;
         value = 100 + r.nextInt(901);
         this.worldSize = worldSize;
-        this.color = ColorUtil.rgb(255,0,0);
+        setColor(ColorUtil.rgb(255, 0, 0));
         this.location = new Point2D((worldSize.getWidth()/4),
                 (worldSize.getHeight()/20));
         this.dimension = new Dimension(worldSize.getWidth()/2,
@@ -69,23 +69,29 @@ public class Building extends Fixed{
     }
 
     @Override
-    public void draw(Graphics g, Point containerOrigin) {
-        g.setColor(color);
-        g.drawRect(containerOrigin.getX() + (int)location.getX(),
-                containerOrigin.getY() +  (int)location.getY(),
+    public void updateLocalTransforms() {
+
+    }
+
+    @Override
+    public void localDraw(Graphics g, Point parentOrigin, Point screenOrigin) {
+        g.setColor(getColor());
+        g.drawRect(parentOrigin.getX() + (int)location.getX(),
+                parentOrigin.getY() +  (int)location.getY(),
                 dimension.getWidth(), dimension.getHeight());
         g.setFont(Font.createSystemFont(FACE_MONOSPACE, STYLE_BOLD,
                 SIZE_MEDIUM));
 
         g.drawString("V: " + value,
-                containerOrigin.getX() + (int)location.getX()
+                parentOrigin.getX() + (int)location.getX()
                         + (dimension.getWidth() + 10),
-                containerOrigin.getY() + (int)location.getY()
+                parentOrigin.getY() + (int)location.getY()
                         + dimension.getHeight() - 60);
         g.drawString("D: " + damage,
-                containerOrigin.getX() + (int)location.getX()
+                parentOrigin.getX() + (int)location.getX()
                         + (dimension.getWidth() + 10),
-                containerOrigin.getY() + (int)location.getY()
+                parentOrigin.getY() + (int)location.getY()
                         + (dimension.getHeight() - 25));
+
     }
 }

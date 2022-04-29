@@ -9,11 +9,19 @@ public class FireCollection extends GameObjectCollection<Fire>{
 
     public FireCollection(){
         super();
-        this.color = ColorUtil.rgb(255,0,0);
+        setColor(ColorUtil.rgb(255, 0, 0));
     }
-    public void draw(Graphics g, Point containerOrigin) {
+
+    @Override
+    public void updateLocalTransforms() {
+
+    }
+
+    @Override
+    public void localDraw(Graphics g, Point parentOrigin,
+                          Point screenOrigin) {
         for(Fire spot: getGameObjects()){
-            spot.draw(g, containerOrigin);
+            spot.draw(g, parentOrigin, screenOrigin);
         }
     }
 }

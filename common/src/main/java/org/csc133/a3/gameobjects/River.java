@@ -11,7 +11,7 @@ public class River extends Fixed{
 
     public River(Dimension worldSize) {
         this.worldSize = worldSize;
-        this.color = ColorUtil.BLUE;
+        this.setColor(ColorUtil.BLUE);
         this.location = new Point2D(0, 0);
         this.dimension = new Dimension(worldSize.getWidth(),
                 worldSize.getHeight());
@@ -26,13 +26,18 @@ public class River extends Fixed{
     int getRiverSouth() {
         return (getRiverNorth() + dimension.getHeight()/9 * 2);
     }
+
     @Override
-    public void draw(Graphics g, Point containerOrigin) {
-        g.clearRect(containerOrigin.getX(), containerOrigin.getY(),
+    public void updateLocalTransforms() {
+    }
+
+    @Override
+    public void localDraw(Graphics g, Point parentOrigin, Point screenOrigin) {
+        g.clearRect(parentOrigin.getX(), parentOrigin.getY(),
                 worldSize.getWidth(), worldSize.getHeight());
-        g.setColor(color);
-        g.drawRect(containerOrigin.getX() + (int)location.getX(),
-                (containerOrigin.getY() + (worldSize.getHeight()/9 *2)),
+        g.setColor(getColor());
+        g.drawRect(parentOrigin.getX() + (int)location.getX(),
+                (parentOrigin.getY() + (worldSize.getHeight()/9 *2)),
                 dimension.getWidth(),
                 dimension.getHeight()/9 * 2);
     }

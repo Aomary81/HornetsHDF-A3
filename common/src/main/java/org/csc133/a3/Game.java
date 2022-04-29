@@ -1,5 +1,6 @@
 package org.csc133.a3;
 
+import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.layouts.BorderLayout;
@@ -41,10 +42,17 @@ public class Game extends Form implements Runnable {
         addKeyListener('f', new Fight(gw));
         // drink water
         addKeyListener('d', new Drink(gw));
+        this.getAllStyles().setBgColor(ColorUtil.BLACK);
+        this.show();
+        gw.init();
+        mv.init();
     }
 
     @Override
     public void run() {
+        mv.updateLocalTransforms();;
+        mv.repaint();
+
         gw.tick();
         gc.update();
         repaint();

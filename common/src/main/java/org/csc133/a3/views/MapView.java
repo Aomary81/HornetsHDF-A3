@@ -1,6 +1,7 @@
 package org.csc133.a3.views;
 
 
+import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
 import com.codename1.ui.Graphics;
@@ -9,14 +10,17 @@ import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.geom.Point;
 import org.csc133.a3.GameWorld;
 import org.csc133.a3.gameobjects.GameObject;
+import org.csc133.a3.gameobjects.Helicopter;
 
 public class MapView extends Container {
     GameWorld gw;
     private float winLeft, winBottom, winRight, winTop;
+    private Helicopter helicopter;
 
     public MapView(GameWorld gw) {
         this.gw = gw;
     }
+
     @Deprecated
     public void displayTransform(Graphics g){
         Transform gXform = Transform.makeIdentity();
@@ -75,17 +79,19 @@ public class MapView extends Container {
         Point parentOrigin = new Point(this.getX(), this.getY());
         Point screenOrigin = new Point(getAbsoluteX(), getAbsoluteY());
 
-        for(GameObject go: gw.getGameObjectCollection()){
             setupVTM(g);
-
-            go.draw(g, parentOrigin, screenOrigin);// maybe
+            helicopter.draw(g, parentOrigin, screenOrigin);// maybe
             g.resetAffine();
-        }
     }
 
     public void updateLocalTransforms() {
-        for(GameObject go: gw.getGameObjectCollection()){
-            go.updateLocalTransforms();
-        }
+//        for(GameObject go: gw.getGameObjectCollection()){
+//            go.updateLocalTransforms();
+//        }
+    }
+
+    public void init() {
+        helicopter = new Helicopter(new Point(getWidth()/2,getHeight()/2));
+
     }
 }

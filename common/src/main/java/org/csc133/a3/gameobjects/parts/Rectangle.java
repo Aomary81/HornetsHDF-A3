@@ -22,15 +22,12 @@ public class Rectangle extends GameObject {
 
     }
     @Override
-    protected void localDraw(Graphics g, Point parentOrigin,
-                             Point screenOrigin) {
+    public void localDraw(Graphics g, Point parentOrigin,
+                          Point screenOrigin) {
         g.setColor(getColor());
         containerTranslate(g,parentOrigin);
         cn1ForwardPrimitiveTranslate(g,getDimension());
+        g.drawRect(0,0,getWidth(),getHeight());
     }
 
-    @Override
-    public void draw(Graphics g, Point containerOrigin) {
-
-    }
 }

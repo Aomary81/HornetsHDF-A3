@@ -13,12 +13,6 @@ public class Arc extends GameObject {
         this.startAngle=0;
         this.arcAngle=0;
     }
-
-    @Override
-    public void updateLocalTransforms() {
-
-    }
-
     public Arc(int color, int width, int height, int startAngle, int arcAngle){
         this(color,width,height,
                 0,0,
@@ -26,7 +20,6 @@ public class Arc extends GameObject {
                 0,
                 startAngle, arcAngle);
     }
-
     public Arc(int color,
                int width,
                int height,
@@ -46,8 +39,8 @@ public class Arc extends GameObject {
     }
 
     @Override
-    protected void localDraw(Graphics g, Point parentOrigin,
-                             Point screenOrigin) {
+    public void localDraw(Graphics g, Point parentOrigin,
+                          Point screenOrigin) {
         g.setColor(getColor());
         containerTranslate(g,parentOrigin);
         cn1ForwardPrimitiveTranslate(g,getDimension());
@@ -57,7 +50,7 @@ public class Arc extends GameObject {
     }
 
     @Override
-    public void draw(Graphics g, Point containerOrigin) {
+    public void updateLocalTransforms() {
 
     }
 }

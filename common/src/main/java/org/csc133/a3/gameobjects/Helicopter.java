@@ -276,7 +276,7 @@ public class Helicopter extends GameObject implements Steerable {
         heloParts.add(new HeloBladeShaft());
         translate(lZ.getX(),
                 lZ.getY());
-        scale(1,1);
+        scale(0.2,0.2);
 
     }
 

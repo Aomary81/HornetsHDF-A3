@@ -9,12 +9,11 @@ import com.codename1.ui.geom.Point2D;
 public class Helipad extends Fixed{
     private int helipadId;
 
-    public Helipad(Dimension worldSize) {
-        this.worldSize = worldSize;
+    public Helipad(Point lZ) {
         setColor(ColorUtil.GRAY);
-        this.dimension = new Dimension(200, 200);
-        this.location = new Point2D(worldSize.getWidth()/2,
-                worldSize.getHeight());
+        this.dimension = new Dimension(400,400);
+        translate(lZ.getX(), lZ.getY());
+        scale(0.2,0.2);
     }
 
     // Get Helipads X and Y coordinates
@@ -37,17 +36,16 @@ public class Helipad extends Fixed{
     @Override
     public void localDraw(Graphics g, Point parentOrigin, Point screenOrigin) {
         g.setColor(getColor());
-        g.drawArc(parentOrigin.getX() + (int)location.getX()
-                        - (dimension.getWidth()/8 *3),
-                parentOrigin.getY() +
-                        (int)location.getY() - dimension.getWidth()/2 -
-                        dimension.getWidth() + dimension.getWidth()/8,
-                (dimension.getWidth() - 50),
-                (dimension.getWidth() - 50), 0,360);
-        g.drawRect(parentOrigin.getX() + (int)location.getX() -
-                        dimension.getWidth()/2, parentOrigin.getY() +
-                        (int)location.getY() - dimension.getWidth()/2 -
-                        dimension.getWidth(), dimension.getWidth(),
-                dimension.getWidth(), 5);
+        containerTranslate(g,parentOrigin);
+        cn1ForwardPrimitiveTranslate(g,getDimension());
+        g.drawArc((int)(screenOrigin.getX() - ((getDimension().getWidth() * 0.90)) + (getDimension().getWidth() * 0.90)/2),
+                (int)(screenOrigin.getY()-((getDimension().getHeight()*0.90))),
+                (int)(getDimension().getWidth()*0.90),
+                (int)(getDimension().getHeight()*0.90),
+                0,360);
+        g.drawRect(screenOrigin.getX()-(getDimension().getWidth()/2),
+                screenOrigin.getY()-(getDimension().getHeight()),
+                getDimension().getWidth(), getDimension().getHeight(),
+                5);
     }
 }

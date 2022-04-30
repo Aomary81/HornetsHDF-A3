@@ -11,12 +11,13 @@ import com.codename1.ui.geom.Point;
 import org.csc133.a3.GameWorld;
 import org.csc133.a3.gameobjects.GameObject;
 import org.csc133.a3.gameobjects.Helicopter;
+import org.csc133.a3.gameobjects.Helipad;
 
 public class MapView extends Container {
     GameWorld gw;
     private float winLeft, winBottom, winRight, winTop;
     private Helicopter helicopter;
-
+    private Helipad helipad;
     public MapView(GameWorld gw) {
         this.gw = gw;
     }
@@ -79,9 +80,10 @@ public class MapView extends Container {
         Point parentOrigin = new Point(this.getX(), this.getY());
         Point screenOrigin = new Point(getAbsoluteX(), getAbsoluteY());
 
-            setupVTM(g);
-            helicopter.draw(g, parentOrigin, screenOrigin);// maybe
-            g.resetAffine();
+        setupVTM(g);
+        helicopter.draw(g, parentOrigin, screenOrigin);// maybe
+        helipad.draw(g, parentOrigin, screenOrigin);
+        g.resetAffine();
     }
 
     public void updateLocalTransforms() {
@@ -91,7 +93,7 @@ public class MapView extends Container {
     }
 
     public void init() {
-        helicopter = new Helicopter(new Point(getWidth()/2,getHeight()/2));
-
+        helipad = new Helipad(new Point(getWidth()/2,getHeight()/8));
+        helicopter = new Helicopter(new Point(getWidth()/2,getHeight()/8));
     }
 }

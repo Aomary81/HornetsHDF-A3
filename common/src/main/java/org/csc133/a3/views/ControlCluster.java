@@ -14,7 +14,7 @@ public class ControlCluster extends Container {
 
     public ControlCluster(GameWorld gw) {
         this.gw =gw;
-        TableLayout layout = new TableLayout(1,7);
+        TableLayout layout = new TableLayout(1,8);
         this.setLayout(layout);
         Button left = new Button("LEFT");
         left.setCommand(new TurnLeft(gw));
@@ -28,6 +28,10 @@ public class ControlCluster extends Container {
         fight.setCommand(new Fight(gw));
         fight.getAllStyles().setBgTransparency(255);
         fight.getAllStyles().setBgColor(ColorUtil.LTGRAY);
+        Button start = new Button("START");
+        start.setCommand(new StartEngine(gw));
+        start.getAllStyles().setBgTransparency(255);
+        start.getAllStyles().setBgColor(ColorUtil.LTGRAY);
         Button exit = new Button("EXIT");
         exit.setCommand(new Exit(gw));
         exit.getAllStyles().setBgTransparency(255);
@@ -50,7 +54,9 @@ public class ControlCluster extends Container {
                 .horizontalAlign(Component.LEFT), right);
         this.add(layout.createConstraint().widthPercentage(10)
                 .horizontalAlign(Component.LEFT), fight);
-        this.add(layout.createConstraint().widthPercentage(40)
+        this.add(layout.createConstraint().widthPercentage(20)
+                .horizontalAlign(Component.CENTER), start);
+        this.add(layout.createConstraint().widthPercentage(20)
                 .horizontalAlign(Component.CENTER), exit);
         this.add(layout.createConstraint().widthPercentage(10)
                 .horizontalAlign(Component.RIGHT), drink);

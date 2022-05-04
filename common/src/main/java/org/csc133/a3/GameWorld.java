@@ -89,4 +89,7 @@ public class GameWorld {
     public void brake() {
        // helicopter.decelerate();
     }
+
+    public void startEngine() {
+    }
 }

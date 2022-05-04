@@ -5,68 +5,61 @@ import com.codename1.ui.Font;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.geom.Point;
-import com.codename1.ui.geom.Point2D;
 
-import java.util.Random;
 
 import static com.codename1.ui.CN.*;
 
-public class Building extends Fixed{
+public class Building extends GameObject{
     private int value;
-    private double damage;
-    private Random r;
-    public Building(Dimension worldSize){
-        r = new Random();
-        damage = 0;
-        value = 100 + r.nextInt(901);
-        this.worldSize = worldSize;
-        setColor(ColorUtil.rgb(255, 0, 0));
-        this.location = new Point2D((worldSize.getWidth()/4),
-                (worldSize.getHeight()/20));
-        this.dimension = new Dimension(worldSize.getWidth()/2,
-                worldSize.getHeight()/10);
+    private int damage;
+    private int currentValue;
+    private int buildingID;
+
+    public Building(int buildingObject, Dimension worldSize){
+        setColor(ColorUtil.rgb(255,0,0));
+        if(buildingObject == 0) {
+            this.dimension = new Dimension(1200, 200);
+            this.worldSize = worldSize;
+            value = 854;
+            currentValue = value;
+            this.buildingID=buildingObject;
+            translate(0, this.getDimension().getHeight()*2.2);
+
+        }else if(buildingObject == 1){
+            this.dimension = new Dimension(200, 500);
+            value = 603;
+            currentValue = value;
+            this.buildingID=buildingObject;
+            translate(-getDimension().getWidth()*3,
+                    -getDimension().getHeight()/2);
+
+        }else{
+            this.dimension = new Dimension(200, 400);
+            value = 429;
+            currentValue = value;
+            this.buildingID=buildingObject;
+            translate(getDimension().getWidth()*3,
+                    -getDimension().getHeight()/2);
+        }
+        translate(worldSize.getWidth()/2,worldSize.getHeight()/2);
     }
 
-    public void setBuildingLocationX(double x){
-        location.setX(x);
+    public int getCurrentValue(){
+        return this.currentValue;
     }
-    public void setBuildingLocationY(double y){
-        location.setY(y);
+
+    public int getCurrentValue(int loss){
+        return currentValue = currentValue - loss;
     }
-    public void setBuildingDimension(int x, int y){
-        dimension.setWidth(x);
-        dimension.setHeight(y);
+
+    public void adjustValue(int loss){
+        this.value = loss;
     }
-    public int getBuildingLocationX(){
-        return (int)location.getX();
-    }
-    public int getBuildingLocationY(){
-        return (int)location.getY();
-    }
-    public double getAreaOfBuilding(){
+
+    public int getBuildingArea() {
         return (dimension.getWidth() * dimension.getHeight());
     }
-    public void setFireInBuilding(Fire fire){
-        Random r = new Random();
-        fire.setLocationX((getBuildingLocationX() - (fire.getFireSize()/4)
-                +r.nextInt(dimension.getWidth())));
-        fire.setLocationY(getBuildingLocationY() - (fire.getFireSize()/4)
-                +r.nextInt(dimension.getHeight()));
-    }
-    public int getValue(){
-        return value;
-    }
-    public double getDamage(FireCollection FireCollection){
-        double burnt = 0;
-        for(Fire spot: FireCollection){
-            burnt = burnt + spot.getFireSize();
-        }
-        burnt = burnt/getAreaOfBuilding() * 100;
-        return burnt;
-    }
-    public void setDamage(double x){
-        damage = x;
-    }
+
 
     @Override
     public void updateLocalTransforms() {
@@ -74,24 +67,19 @@ public class Building extends Fixed{
     }
 
     @Override
-    public void localDraw(Graphics g, Point parentOrigin, Point screenOrigin) {
+    public void localDraw(Graphics g, Point parentOrigin,
+                          Point screenOrigin) {
         g.setColor(getColor());
-        g.drawRect(parentOrigin.getX() + (int)location.getX(),
-                parentOrigin.getY() +  (int)location.getY(),
-                dimension.getWidth(), dimension.getHeight());
-        g.setFont(Font.createSystemFont(FACE_MONOSPACE, STYLE_BOLD,
-                SIZE_MEDIUM));
+        containerTranslate(g,parentOrigin);
+        cn1ForwardPrimitiveTranslate(g,getDimension());
+        g.drawRect(-getWidth()/2,-getHeight()/2, getWidth(), getHeight());
 
-        g.drawString("V: " + value,
-                parentOrigin.getX() + (int)location.getX()
-                        + (dimension.getWidth() + 10),
-                parentOrigin.getY() + (int)location.getY()
-                        + dimension.getHeight() - 60);
-        g.drawString("D: " + damage,
-                parentOrigin.getX() + (int)location.getX()
-                        + (dimension.getWidth() + 10),
-                parentOrigin.getY() + (int)location.getY()
-                        + (dimension.getHeight() - 25));
-
+        g.setFont(Font.createSystemFont
+                (FACE_MONOSPACE, STYLE_BOLD, SIZE_MEDIUM));
+        g.scale(1,-1);
+        g.drawString("V  : $" + this.getCurrentValue(),
+                getWidth()/2 + 25, getHeight()/2 - getHeight());
+        g.drawString("D  : " + this.damage + "%",
+                getWidth()/2 + 25, getHeight()/2 + 25 - getHeight());
     }
 }

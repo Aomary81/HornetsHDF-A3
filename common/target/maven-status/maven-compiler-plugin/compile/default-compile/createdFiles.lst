@@ -10,6 +10,7 @@ org\csc133\a3\gameobjects\River.class
 org\csc133\a3\gameobjects\Helicopter$HeloTailSide.class
 org\csc133\a3\views\MapView.class
 org\csc133\a3\gameobjects\Helicopter$HeloFirstRearBrace.class
+org\csc133\a3\commands\StartEngine.class
 org\csc133\a3\gameobjects\BuildingCollection.class
 org\csc133\a3\AppMain.class
 org\csc133\a3\interfaces\Burning.class

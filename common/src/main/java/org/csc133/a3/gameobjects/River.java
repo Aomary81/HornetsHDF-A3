@@ -4,41 +4,30 @@ import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.geom.Point;
-import com.codename1.ui.geom.Point2D;
 
-public class River extends Fixed{
-
+public class River extends Fixed {
 
     public River(Dimension worldSize) {
-        this.worldSize = worldSize;
-        this.setColor(ColorUtil.BLUE);
-        this.location = new Point2D(0, 0);
-        this.dimension = new Dimension(worldSize.getWidth(),
-                worldSize.getHeight());
-
+        setColor(ColorUtil.BLUE);
+        setDimension(new Dimension(worldSize.getWidth(),
+                worldSize.getHeight()/6));
+        translate(0, getDimension().getHeight()*2.5);
     }
 
-
-    int getRiverNorth() {
-        return (int)location.getY() + (worldSize.getHeight()/9 * 2);
-    }
-
-    int getRiverSouth() {
-        return (getRiverNorth() + dimension.getHeight()/9 * 2);
-    }
-
-    @Override
+  @Override
     public void updateLocalTransforms() {
+
     }
 
     @Override
-    public void localDraw(Graphics g, Point parentOrigin, Point screenOrigin) {
-        g.clearRect(parentOrigin.getX(), parentOrigin.getY(),
-                worldSize.getWidth(), worldSize.getHeight());
+    public void localDraw(Graphics g,
+                          Point parentOrigin, Point screenOrigin) {
         g.setColor(getColor());
-        g.drawRect(parentOrigin.getX() + (int)location.getX(),
-                (parentOrigin.getY() + (worldSize.getHeight()/9 *2)),
-                dimension.getWidth(),
-                dimension.getHeight()/9 * 2);
+        containerTranslate(g,parentOrigin);
+        cn1ForwardPrimitiveTranslate(g,getDimension());
+        g.drawRect(screenOrigin.getX(),
+                screenOrigin.getY(),
+                getDimension().getWidth(), getDimension().getHeight());
     }
 }
+

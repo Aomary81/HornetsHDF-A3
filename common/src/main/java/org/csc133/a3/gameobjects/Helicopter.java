@@ -247,8 +247,8 @@ public class Helicopter extends GameObject implements Steerable {
 
     private HeloBlade heloBlade;
 
-    public Helicopter(Point lZ){
-        setColor(ColorUtil.YELLOW);
+    public Helicopter(Point lZ, int color){
+        setColor(color);
         heloParts = new ArrayList<>();
 
         heloParts.add(new HeloBubble());

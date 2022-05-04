@@ -3,21 +3,21 @@ package org.csc133.a3.views;
 
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Container;
-import com.codename1.ui.Display;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Transform;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.geom.Point;
 import org.csc133.a3.GameWorld;
-import org.csc133.a3.gameobjects.GameObject;
-import org.csc133.a3.gameobjects.Helicopter;
-import org.csc133.a3.gameobjects.Helipad;
+import org.csc133.a3.gameobjects.*;
 
 public class MapView extends Container {
-    GameWorld gw;
+    private GameWorld gw;
     private float winLeft, winBottom, winRight, winTop;
     private Helicopter helicopter;
     private Helipad helipad;
+    private final int NUMBER_OF_BUILDINGS = 3;
+    private BuildingCollection buildings;
+    private River river;
     public MapView(GameWorld gw) {
         this.gw = gw;
     }
@@ -34,14 +34,16 @@ public class MapView extends Container {
         gXform.translate(-getAbsoluteX(),-getAbsoluteY());
         g.setTransform(gXform);
     }
-    private Transform buildWorldToNDXform(float winWidth, float winHeight, float winLeft, float winBottom){
+    private Transform buildWorldToNDXform(float winWidth, float winHeight,
+                                          float winLeft, float winBottom){
         Transform tmpXform = Transform.makeIdentity();
         tmpXform.scale(1/winWidth, 1/winHeight);
         tmpXform.translate(-winLeft,-winBottom);
         return tmpXform;
     }
 
-    private Transform buildNDtoDisplayXform(float displayWidth, float displayHeight){
+    private Transform buildNDtoDisplayXform(float displayWidth,
+                                            float displayHeight){
         Transform tmpXform = Transform.makeIdentity();
         tmpXform.translate(0,displayHeight);
         tmpXform.scale(displayWidth, -displayHeight);
@@ -81,8 +83,12 @@ public class MapView extends Container {
         Point screenOrigin = new Point(getAbsoluteX(), getAbsoluteY());
 
         setupVTM(g);
+        river.draw(g, parentOrigin, screenOrigin);
         helicopter.draw(g, parentOrigin, screenOrigin);// maybe
         helipad.draw(g, parentOrigin, screenOrigin);
+        for(Building building: buildings){
+            building.draw(g, parentOrigin, screenOrigin);
+        }
         g.resetAffine();
     }
 
@@ -93,7 +99,17 @@ public class MapView extends Container {
     }
 
     public void init() {
+        river = new River(new Dimension(getWidth(),getHeight()));
         helipad = new Helipad(new Point(getWidth()/2,getHeight()/8));
-        helicopter = new Helicopter(new Point(getWidth()/2,getHeight()/8));
+        helicopter = new Helicopter(new Point(getWidth()/2,getHeight()/8),
+                ColorUtil.YELLOW);
+        buildings = new BuildingCollection();
+
+        for (int i = 0; i < NUMBER_OF_BUILDINGS; i++) {
+            buildings.add(new Building(i, new Dimension(getWidth(),
+                    getHeight())));
+        }
+
+
     }
 }

@@ -1,6 +1,5 @@
 package org.csc133.a3.gameobjects;
 
-import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.geom.Point;
@@ -11,7 +10,7 @@ import org.csc133.a3.interfaces.Steerable;
 
 import java.util.ArrayList;
 
-public class Helicopter extends GameObject implements Steerable {
+public class Helicopter extends Movable implements Steerable {
     final static int BUBBLE_RADIUS = 125;
     final static int ENGINE_BLOCK_WIDTH = (int)(BUBBLE_RADIUS*1.8);
     final static int ENGINE_BLOCK_HEIGHT = (ENGINE_BLOCK_WIDTH/3);
@@ -23,11 +22,12 @@ public class Helicopter extends GameObject implements Steerable {
     final static int LEG_HEIGHT = 10;
     final static int TAIL_WIDTH = 10;
     final static int TAIL_HEIGHT = (int) (RAIL_LENGTH*0.85);
+    private static int color1;
 
     //````````````````````````````````````````````````````````````````````````
     private static class HeloBubble extends Arc {
         public HeloBubble(){
-            super(ColorUtil.YELLOW,
+            super(color1,
                     2*Helicopter.BUBBLE_RADIUS,
                     2*Helicopter.BUBBLE_RADIUS,
                     0,(float) (2*Helicopter.BUBBLE_RADIUS*0.20),
@@ -41,7 +41,7 @@ public class Helicopter extends GameObject implements Steerable {
 
     private static class HeloEngineBlock extends Rectangle {
         public HeloEngineBlock(){
-            super(ColorUtil.YELLOW,
+            super(color1,
                     Helicopter.ENGINE_BLOCK_WIDTH,
                     Helicopter.ENGINE_BLOCK_HEIGHT,
                     (float)(-Helicopter.ENGINE_BLOCK_WIDTH/2),
@@ -54,7 +54,7 @@ public class Helicopter extends GameObject implements Steerable {
 
     private static class HeloBlade extends Rectangle{
         public HeloBlade(){
-            super(ColorUtil.GRAY,
+            super(color1,
                     BLADE_LENGTH, BLADE_WIDTH,
                     -BLADE_LENGTH/2, -ENGINE_BLOCK_HEIGHT-(BLADE_WIDTH/2),
                     1,1,0);
@@ -69,7 +69,7 @@ public class Helicopter extends GameObject implements Steerable {
 
     private static class HeloBladeShaft extends Arc{
         public HeloBladeShaft(){
-            super(ColorUtil.YELLOW,
+            super(color1,
                     2 * Helicopter.BLADE_WIDTH / 3,
                     2 * Helicopter.BLADE_WIDTH / 3,
                     0, -Helicopter.ENGINE_BLOCK_HEIGHT,
@@ -84,7 +84,7 @@ public class Helicopter extends GameObject implements Steerable {
 
     private static class HeloRail extends Rectangle{
         public HeloRail(float side){
-            super(ColorUtil.YELLOW,
+            super(color1,
                     Helicopter.RAIL_WIDTH, Helicopter.RAIL_LENGTH,
                     side*Helicopter.RAIL_LENGTH/2, -Helicopter.RAIL_LENGTH/2,
                     1,1,0);
@@ -93,7 +93,7 @@ public class Helicopter extends GameObject implements Steerable {
     //````````````````````````````````````````````````````````````````````````
     private static class HeloUpperLeg extends Rectangle{
         public HeloUpperLeg(float side){
-            super(ColorUtil.GRAY,
+            super(color1,
                     Helicopter.LEG_WIDTH, Helicopter.LEG_HEIGHT,
                     (float) (side*Helicopter.ENGINE_BLOCK_WIDTH/2
                             + side*Helicopter.LEG_WIDTH/2),
@@ -106,7 +106,7 @@ public class Helicopter extends GameObject implements Steerable {
 
     private static class HeloLowerLeg extends Rectangle{
         public HeloLowerLeg(float side){
-            super(ColorUtil.GRAY,
+            super(color1,
                     Helicopter.LEG_WIDTH, Helicopter.LEG_HEIGHT,
                     side*Helicopter.ENGINE_BLOCK_WIDTH/2
                             + side*Helicopter.LEG_WIDTH/2,
@@ -119,7 +119,7 @@ public class Helicopter extends GameObject implements Steerable {
 
     private static class HeloTailTop extends Rectangle{
         public HeloTailTop(){
-            super(ColorUtil.GRAY,
+            super(color1,
                     Helicopter.TAIL_WIDTH, Helicopter.TAIL_HEIGHT,
                     (float)(-Helicopter.TAIL_WIDTH/2),
                     (float)((-Helicopter.TAIL_HEIGHT
@@ -133,7 +133,7 @@ public class Helicopter extends GameObject implements Steerable {
 
     private static class HeloTailSide extends Lines {
         public HeloTailSide(float side){
-            super(ColorUtil.YELLOW,
+            super(color1,
                     0,0,
                     (int)side*Helicopter.ENGINE_BLOCK_WIDTH/8,
                     -Helicopter.TAIL_HEIGHT,
@@ -148,7 +148,7 @@ public class Helicopter extends GameObject implements Steerable {
 
     private static class HeloRearRotorBox extends Rectangle{
         public HeloRearRotorBox(){
-            super(ColorUtil.GRAY,
+            super(color1,
                     Helicopter.ENGINE_BLOCK_WIDTH/4,
                     Helicopter.ENGINE_BLOCK_WIDTH/4,
                     (float)-((Helicopter.ENGINE_BLOCK_WIDTH/4)/2),
@@ -161,7 +161,7 @@ public class Helicopter extends GameObject implements Steerable {
 
     private static class HeloRearRotorConnector extends Rectangle{
         public HeloRearRotorConnector(){
-            super(ColorUtil.YELLOW,
+            super(color1,
                     Helicopter.TAIL_WIDTH*2,
                     (int) (Helicopter.TAIL_WIDTH*1.5),
                     Helicopter.ENGINE_BLOCK_WIDTH/8,
@@ -178,7 +178,7 @@ public class Helicopter extends GameObject implements Steerable {
 
     private static class HeloRearRotor extends Rectangle{
         public HeloRearRotor(){
-            super(ColorUtil.GRAY,
+            super(color1,
                     Helicopter.TAIL_WIDTH*2,
                     Helicopter.TAIL_WIDTH*10,
                     Helicopter.ENGINE_BLOCK_WIDTH/8
@@ -196,7 +196,7 @@ public class Helicopter extends GameObject implements Steerable {
     //````````````````````````````````````````````````````````````````````````
     private static class HeloRearBlade extends Rectangle{
         public HeloRearBlade(){
-            super(ColorUtil.YELLOW,
+            super(color1,
                     Helicopter.ENGINE_BLOCK_WIDTH/2,
                     Helicopter.ENGINE_BLOCK_WIDTH/4,
                     (float)-((Helicopter.ENGINE_BLOCK_WIDTH*5/8)),
@@ -208,16 +208,16 @@ public class Helicopter extends GameObject implements Steerable {
 
     private class HeloText extends Rectangle{
         public HeloText(){
-            super(ColorUtil.YELLOW,
-                    Helicopter.RAIL_WIDTH, Helicopter.RAIL_LENGTH,
+            super(color1,
+                    0,0,
                     Helicopter.RAIL_LENGTH/2, 0,
-                    5,-5,0);
+                    1,1,0);
         }
     }
     private static class HeloFirstRearBrace extends Lines {
 
         public HeloFirstRearBrace(float side){
-            super(ColorUtil.YELLOW,
+            super(color1,
                     0,0,
                     (int)(side*(Helicopter.BUBBLE_RADIUS*0.70)),
                     -(int)(Helicopter.TAIL_HEIGHT*.60),
@@ -231,7 +231,7 @@ public class Helicopter extends GameObject implements Steerable {
     private static class HeloSecondRearBrace extends Lines {
 
         public HeloSecondRearBrace(float side){
-            super(ColorUtil.YELLOW,
+            super(color1,
                     0,0,
                     (int)(side*(Helicopter.ENGINE_BLOCK_WIDTH*0.35)),
                     (int)(Helicopter.TAIL_HEIGHT*0.40),
@@ -248,7 +248,7 @@ public class Helicopter extends GameObject implements Steerable {
     private HeloBlade heloBlade;
 
     public Helicopter(Point lZ, int color){
-        setColor(color);
+        color1 = color;
         heloParts = new ArrayList<>();
 
         heloParts.add(new HeloBubble());
@@ -295,15 +295,7 @@ public class Helicopter extends GameObject implements Steerable {
     public void addHeloText(){
         heloParts.add(new HeloText());
     }
-    @Override
-    public void steerLeft() {
 
-    }
-
-    @Override
-    public void steerRight() {
-
-    }
     public void accelerate(){
 //        heloState.accelerate();
     }
@@ -320,7 +312,7 @@ public class Helicopter extends GameObject implements Steerable {
         super.setDimension(dimension);
     }
     public int getColor(){
-        return ColorUtil.YELLOW;
+        return color1;
     }
     @Override
     public int getWidth(){

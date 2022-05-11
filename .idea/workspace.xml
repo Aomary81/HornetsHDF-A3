@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="336d32c5-6f4b-4a8f-b637-9fea310958e7" name="Default Changelist" comment="added river and buildings to mapview">
+    <list default="true" id="336d32c5-6f4b-4a8f-b637-9fea310958e7" name="Default Changelist" comment="updated movable class">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/src/main/java/org/csc133/a3/gameobjects/Helicopter.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/csc133/a3/gameobjects/Helicopter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/csc133/a3/gameobjects/parts/Rectangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/csc133/a3/gameobjects/parts/Rectangle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/org/csc133/a3/views/MapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/org/csc133/a3/views/MapView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/target/HornetsHDF-A3-common-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/common/target/HornetsHDF-A3-common-1.0-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/target/classes/org/csc133/a3/gameobjects/Helicopter$HeloBlade.class" beforeDir="false" afterPath="$PROJECT_DIR$/common/target/classes/org/csc133/a3/gameobjects/Helicopter$HeloBlade.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/target/classes/org/csc133/a3/gameobjects/Helicopter$HeloBladeShaft.class" beforeDir="false" afterPath="$PROJECT_DIR$/common/target/classes/org/csc133/a3/gameobjects/Helicopter$HeloBladeShaft.class" afterDir="false" />
@@ -24,9 +27,13 @@
       <change beforePath="$PROJECT_DIR$/common/target/classes/org/csc133/a3/gameobjects/Helicopter$HeloText.class" beforeDir="false" afterPath="$PROJECT_DIR$/common/target/classes/org/csc133/a3/gameobjects/Helicopter$HeloText.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/target/classes/org/csc133/a3/gameobjects/Helicopter$HeloUpperLeg.class" beforeDir="false" afterPath="$PROJECT_DIR$/common/target/classes/org/csc133/a3/gameobjects/Helicopter$HeloUpperLeg.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/target/classes/org/csc133/a3/gameobjects/Helicopter.class" beforeDir="false" afterPath="$PROJECT_DIR$/common/target/classes/org/csc133/a3/gameobjects/Helicopter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/target/classes/org/csc133/a3/gameobjects/Movable.class" beforeDir="false" afterPath="$PROJECT_DIR$/common/target/classes/org/csc133/a3/gameobjects/Movable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/target/classes/org/csc133/a3/gameobjects/parts/Rectangle.class" beforeDir="false" afterPath="$PROJECT_DIR$/common/target/classes/org/csc133/a3/gameobjects/parts/Rectangle.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/target/classes/org/csc133/a3/interfaces/Steerable.class" beforeDir="false" afterPath="$PROJECT_DIR$/common/target/classes/org/csc133/a3/interfaces/Steerable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/target/classes/org/csc133/a3/views/MapView.class" beforeDir="false" afterPath="$PROJECT_DIR$/common/target/classes/org/csc133/a3/views/MapView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/target/codenameone/simulator.properties" beforeDir="false" afterPath="$PROJECT_DIR$/common/target/codenameone/simulator.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/target/compliance-check.jar" beforeDir="false" afterPath="$PROJECT_DIR$/common/target/compliance-check.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/common/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/common/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -882,7 +889,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651291041696</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="updated movable class">
+      <created>1652244033721</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1652244033721</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -904,6 +918,7 @@
     <MESSAGE value="Constructing helicopter with different parts" />
     <MESSAGE value="Constructing helicopter tail" />
     <MESSAGE value="Constructing of all helicopter parts complete" />
-    <option name="LAST_COMMIT_MESSAGE" value="Constructing of all helicopter parts complete" />
+    <MESSAGE value="updated movable class" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated movable class" />
   </component>
 </project>

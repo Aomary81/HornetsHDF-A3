@@ -96,6 +96,7 @@ public class MapView extends Container {
 //        for(GameObject go: gw.getGameObjectCollection()){
 //            go.updateLocalTransforms();
 //        }
+        helicopter.updateLocalTransforms();
     }
 
     public void init() {

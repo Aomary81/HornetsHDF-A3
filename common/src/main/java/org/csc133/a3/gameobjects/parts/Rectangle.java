@@ -27,7 +27,6 @@ public class Rectangle extends GameObject {
         g.setColor(getColor());
         containerTranslate(g,parentOrigin);
         cn1ForwardPrimitiveTranslate(g,getDimension());
-        g.drawRect(0,0,getWidth(),getHeight());
     }
 
 }

@@ -15,6 +15,6 @@ public class Accelerate extends Command {
     }
     @Override
     public void actionPerformed(ActionEvent event){
-        gw.accelerate();
+        gw.adjustSpeed(1);
     }
 }

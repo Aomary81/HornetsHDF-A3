@@ -4,6 +4,7 @@ import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.*;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.geom.Point;
+import com.codename1.util.MathUtil;
 import org.csc133.a3.Game;
 import org.csc133.a3.gameobjects.parts.Arc;
 import org.csc133.a3.gameobjects.parts.Lines;
@@ -327,7 +328,74 @@ public class Helicopter extends Movable implements Steerable {
                     0);
         }
     }
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    HeloState heloState;
+
+    private void changeState(HeloState heloState){
+        this.heloState=heloState;
+    }
+
+    //````````````````````````````````````````````````````````````````````````
+    private abstract class HeloState{
+        protected Helicopter getHelo() {
+            return Helicopter.this;
+        }
+        public void accelerate(){
+
+        }
+        public void startOrStopEngine(){}
+        public boolean hasLandedAt(){
+            return false;
+        }
+        public void updateLocalTransforms(){
+        }
+
+    }
+
+    //````````````````````````````````````````````````````````````````````````
+    private class Off extends HeloState{
+
+        @Override
+        public void startOrStopEngine(){
+            getHelo().changeState(new Starting());
+            canMove = true;
+        }
+
+        @Override
+        public boolean hasLandedAt() {
+            return true;
+        }
+    }
+
+    //````````````````````````````````````````````````````````````````````````
+    private class Starting extends HeloState{
+        @Override
+        public void startOrStopEngine(){
+            getHelo().changeState(new Stopping());
+        }
+    }
+
+    //````````````````````````````````````````````````````````````````````````
+    private class Stopping extends HeloState{
+        @Override
+        public void startOrStopEngine(){
+            getHelo().changeState(new Starting());
+        }
+    }
+
+    //````````````````````````````````````````````````````````````````````````
+    private class Ready extends HeloState{
+        @Override
+        public void startOrStopEngine(){
+            if(1>2){
+                getHelo().changeState(new Stopping());
+            }
+        }
+        public void accelerate(){
+            heloBladeUpdate(10d);
+        }
+    }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     private ArrayList<GameObject> heloParts;
 
@@ -335,6 +403,7 @@ public class Helicopter extends Movable implements Steerable {
 
     public Helicopter(Point lZ, int color){
         color1 = color;
+        heloState = new Off();
         heloParts = new ArrayList<>();
 
         heloParts.add(new HeloBubble());
@@ -362,6 +431,11 @@ public class Helicopter extends Movable implements Steerable {
         heloParts.add(new HeloBladeShaft());
         translate(lZ.getX(),
                 lZ.getY());
+        super.setHeading(0);
+        super.setSpeed(0);
+        canMove = false;
+        fuel = 25000;
+        water = 0;
         scale(0.2,0.2);
 
     }
@@ -383,11 +457,11 @@ public class Helicopter extends Movable implements Steerable {
     }
 
     public void accelerate(){
-//        heloState.accelerate();
+        heloState.accelerate();
     }
 
     public void startOrStopEngine(){
-//        heloState.startOrStopEngine();
+        heloState.startOrStopEngine();
     }
 
     public void move(){
@@ -422,16 +496,14 @@ public class Helicopter extends Movable implements Steerable {
 
     public void useFuel(){
         if(fuel>0){
-            fuel -= (int) Math.pow(getSpeed(),2) + 5;
+            fuel -= (int) MathUtil.pow(getSpeed(),2) + 5;
         }else{
             fuel = 0;
             if(Dialog.show("Game Over", "You Won!\nScore: "
                             + fuel + "\nPlay Again?", "Heck Yea!",
                     "Some Other Time")) {
-                // user clicked yes
                 new Game();
             } else {
-                //If user clicked no
                 Display.getInstance().exitApplication();
             }
         }
@@ -465,18 +537,15 @@ public class Helicopter extends Movable implements Steerable {
 
     @Override
     public int getWidth(){
-        //int width = 250;
         return 250;
     }
     @Override
     public int getHeight(){
-        //int height = 250;
         return 250;
     }
 
     @Override
     public void updateLocalTransforms() {
-        heloBlade.updateLocalTransforms(10d);
     }
 
     @Override

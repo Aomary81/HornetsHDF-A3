@@ -14,13 +14,12 @@ public abstract class FlightPath extends GameObject {
     public abstract void updateLocalTransforms();
 
     public abstract void localDraw(Graphics g, Point parentOrigin,
-                                   Point screenOrigin);
+                                      Point screenOrigin);
 
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public class Traversal extends BezierCurve{
-        double t;
-        boolean active = false;
-        NonPlayerHelicopter nph;
+        private double t;
+        private boolean active = false;
+        private NonPlayerHelicopter nph;
 
         public Traversal(NonPlayerHelicopter nph){
             super(nph.worldSize, 4);
@@ -46,36 +45,36 @@ public abstract class FlightPath extends GameObject {
 
         public void moveAlongAPath(Point2D c){
             Point2D p = evaluateCurve(t);
-
             double tx = p.getX() - c.getX();
             double ty = p.getY() - c.getY();
-
-            double theta = 360 - Math.toDegrees(Math.atan2(ty,tx));
+            double theta = 360 - Math.toDegrees(MathUtil.atan2(ty,tx));
 
             nph.translate(tx,ty);
 
             if(t<=1){
-//                t += 0.001*nph.getSpeed();
-//                nph.rotate(nph.getHeading() - theta);
-//                nph.setHeading((int) theta);
-            }else{
+                t += 0.001*nph.getSpeed();
+                nph.rotate(nph.getHeading() - theta);
+                nph.setHeading((int) theta);
+            }
+            else{
                 t=0;
             }
         }
 
         @Override
         public void localDraw(Graphics g, Point parentOrigin,
-                              Point screenOrigin) {
+                                 Point screenOrigin) {
             if(active){
                 super.localDraw(g,parentOrigin,screenOrigin);
             }
         }
     }
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     public class FlightControl{
         private Traversal primary;
         private Traversal correction;
-        public FlightControl(NonPlayerHelicopter nph){
+
+        public FlightControl(NonPlayerHelicopter nph) {
             primary = new Traversal(nph);
             correction = new Traversal(nph);
             primary.activate();
@@ -85,6 +84,7 @@ public abstract class FlightPath extends GameObject {
         public void moveAlongAPath(Point2D c){
             primary.moveAlongAPath(c);
         }
+
         public Traversal getPrimary(){
             return primary;
         }
@@ -94,21 +94,19 @@ public abstract class FlightPath extends GameObject {
         }
     }
 
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public static class BezierCurve extends GameObject {
-        ArrayList<Point2D> controlPoints;
-        int curveID;
-        boolean activePath = false;
+        private ArrayList<Point2D> controlPoints;
+        private int curveID;
+        private boolean activePath = false;
 
         public BezierCurve(Dimension worldSize, int currentCurveID) {
             controlPoints = new ArrayList<>();
             curveID = currentCurveID;
 
             if(currentCurveID == 0){
-                //Initial
                 controlPoints.add(new Point2D(
                         worldSize.getWidth()/2,
-                        worldSize.getHeight()/2 - 410));
+                        worldSize.getHeight()/2 - 300));
                 controlPoints.add(new Point2D(
                         worldSize.getWidth()/2,
                         worldSize.getHeight()/2 - 100));
@@ -119,8 +117,8 @@ public abstract class FlightPath extends GameObject {
                         worldSize.getWidth()/2,
                         worldSize.getHeight()/2 + 175));
                 activePath = true;
-            }else if(currentCurveID == 1){
-                //Right Side
+            }
+            else if(currentCurveID == 1){
                 controlPoints.add(new Point2D(
                         worldSize.getWidth()/2,
                         worldSize.getHeight()/2 + 175));
@@ -130,8 +128,8 @@ public abstract class FlightPath extends GameObject {
                 controlPoints.add(new Point2D(
                         worldSize.getWidth()*3/4 + 100,
                         worldSize.getHeight()/2-200));
-            }else if(currentCurveID == 2){
-                //Left Side
+            }
+            else if(currentCurveID == 2){
                 controlPoints.add(new Point2D(
                         worldSize.getWidth()*3/4 + 100,
                         worldSize.getHeight()/2-200));
@@ -165,7 +163,6 @@ public abstract class FlightPath extends GameObject {
             Point2D p = new Point2D(0, 0);
             int d = controlPoints.size() - 1;
             for (int i = 0; i < controlPoints.size(); i++) {
-                // d: degree, i: term, t: evaluating at t
                 p.setX(p.getX()
                         + bernsteinD(d, i, t) * controlPoints.get(i).getX());
                 p.setY(p.getY()
@@ -180,7 +177,6 @@ public abstract class FlightPath extends GameObject {
             Point2D currentPoint = controlPoints.get(0);
             Point2D nextPoint;
             double t = 0;
-
             g.setColor(ColorUtil.GRAY);
 
             for (Point2D p : controlPoints) {
@@ -190,16 +186,17 @@ public abstract class FlightPath extends GameObject {
 
             if(activePath){
                 g.setColor(ColorUtil.CYAN);
-            }else{
+            }
+            else{
                 g.setColor(ColorUtil.WHITE);
             }
 
             while (t < 1){
                 nextPoint = evaluateCurve(t);
-
-                g.drawLine((int) currentPoint.getX(), (int) currentPoint.getY(),
-                        (int) nextPoint.getX(), (int) nextPoint.getY());
-
+                g.drawLine((int) currentPoint.getX(),
+                        (int) currentPoint.getY(),
+                        (int) nextPoint.getX(),
+                        (int) nextPoint.getY());
                 currentPoint = nextPoint;
                 t = t + smallFloatIncrement;
             }
@@ -210,17 +207,14 @@ public abstract class FlightPath extends GameObject {
         }
 
         private double bernsteinD(int d, int i, double t) {
-            return choose(d, i) * MathUtil.pow(t, i) * MathUtil.pow(1 - t, d - i);
+            return choose(d, i) * MathUtil.pow(t, i)
+                    * MathUtil.pow(1 - t, d - i);
         }
 
         private double choose(int n, int k) {
-            //base case
-            //
             if (k <= 0 || k >= n) {
                 return 1;
             }
-            // recurse using pascal's triangle
-            //
             return choose(n - 1, k - 1) + choose(n - 1, k);
         }
 
@@ -237,10 +231,9 @@ public abstract class FlightPath extends GameObject {
 
         @Override
         public void localDraw(Graphics g, Point parentOrigin,
-                              Point screenOrigin) {
+                                 Point screenOrigin) {
             containerTranslate(g, parentOrigin);
             drawBezierCurve(g, controlPoints);
         }
-
     }
 }

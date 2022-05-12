@@ -5,61 +5,62 @@ import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.util.UITimer;
-import org.csc133.a3.commands.*;
 import org.csc133.a3.views.ControlCluster;
 import org.csc133.a3.views.GlassCockpit;
 import org.csc133.a3.views.MapView;
 
-public class Game extends Form implements Runnable {
+public class Game extends Form implements Runnable{
     private GameWorld gw;
-    private MapView mv;
-    private ControlCluster cc;
-    private GlassCockpit gc;
-    public Game() {
+    private MapView mapView;
+    private GlassCockpit glassCockPit;
+    private ControlCluster controlCluster;
+
+    public Game(){
         gw = new GameWorld();
-        mv = new MapView(gw);
-        cc = new ControlCluster(gw);
-        gc = new GlassCockpit(gw);
+        setTitle("GameWorld");
+
+        mapView = new MapView(gw);
+        glassCockPit = new GlassCockpit(gw);
+        controlCluster = new ControlCluster(gw);
 
         this.setLayout(new BorderLayout());
-        this.add(BorderLayout.NORTH, gc);
-        this.add(BorderLayout.CENTER, mv);
-        this.add(BorderLayout.SOUTH, cc);
+        this.add(BorderLayout.NORTH, glassCockPit);
+        this.add(BorderLayout.CENTER, mapView);
+        this.add(BorderLayout.SOUTH, controlCluster);
+
+        addKeyListener(-93, (evt) ->
+                gw.turn(-15)); // Left Arrow
+        addKeyListener(-94, (evt) ->
+                gw.turn(15)); // Right Arrow
+        addKeyListener(-91, (evt) ->
+                gw.adjustSpeed(1)); // Up Arrow
+        addKeyListener(-92, (evt) ->
+                gw.adjustSpeed(-1)); // Down Arrow
+        addKeyListener('Q', (evt) -> gw.quit());
+        addKeyListener('d', (evt) -> gw.drink());
+        addKeyListener('f', (evt) -> gw.fight());
+        addKeyListener('z', (evt) -> gw.zoom());
+        addKeyListener('s', (evt) -> gw.startEngine());
 
         UITimer timer = new UITimer(this);
-        timer.schedule(100, true, this);
-        // Exit Key
-        addKeyListener('Q', new Exit(gw));
-        //Left Arrow used to turn the helicopter left
-        addKeyListener(-93, new TurnLeft(gw));
-        // Right Arrow used to turn the helicopter right
-        addKeyListener(-94, new TurnRight(gw));
-        // Up Arrow to speed up the helicopter
-        addKeyListener(-91, new Accelerate(gw));
-        // Down Arrow to slow down and stop the helicopter
-        addKeyListener(-92, new Brake(gw));
-        // dump water
-        addKeyListener('f', new Fight(gw));
-        // drink water
-        addKeyListener('d', new Drink(gw));
+        timer.schedule(100,true,this);
+
         this.getAllStyles().setBgColor(ColorUtil.BLACK);
         this.show();
         gw.init();
-        mv.init();
+    }
+
+    public void paint(Graphics g){
+        super.paint(g);
     }
 
     @Override
-    public void run() {
-        mv.updateLocalTransforms();;
-        mv.repaint();
+    public void run(){
+        mapView.updateLocalTransforms();
+        mapView.repaint();
 
         gw.tick();
-        gc.update();
+        glassCockPit.update();
         repaint();
-    }
-
-    public void paint(Graphics g) {
-        super.paint(g);
-        //gw.draw(g);
     }
 }

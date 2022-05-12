@@ -19,8 +19,8 @@ public class Rectangle extends GameObject {
         translate(tx,ty);
         scale(sx,sy);
         rotate(degrees);
-
     }
+
     @Override
     public void localDraw(Graphics g, Point parentOrigin,
                           Point screenOrigin) {
@@ -28,5 +28,4 @@ public class Rectangle extends GameObject {
         containerTranslate(g,parentOrigin);
         cn1ForwardPrimitiveTranslate(g,getDimension());
     }
-
 }

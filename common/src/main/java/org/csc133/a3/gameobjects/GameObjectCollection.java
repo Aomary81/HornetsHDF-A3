@@ -24,9 +24,11 @@ public abstract class GameObjectCollection<T> extends GameObject implements
     public GameObjectCollection(){
         gameObjects = new ArrayList<>();
     }
+
     ArrayList<T> getGameObjects(){
         return gameObjects;
     }
+
     public void add(T gameObject){
         gameObjects.add(gameObject);
     }
@@ -34,9 +36,12 @@ public abstract class GameObjectCollection<T> extends GameObject implements
     public void remove(T gameObject){
         gameObjects.remove(gameObject);
     }
+
     public int size(){
         return gameObjects.size();
     }
+
+    @Override
     public Iterator<T> iterator(){
         return new GameObjectIterator();
     }

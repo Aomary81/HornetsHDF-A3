@@ -1,9 +1,9 @@
 package org.csc133.a3.gameobjects;
 
 import com.codename1.charts.util.ColorUtil;
-import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.geom.Point;
 import com.codename1.ui.geom.Point2D;
+import com.codename1.util.MathUtil;
 
 public class NonPlayerHelicopter extends Helicopter{
     private FlightPath.BezierCurve bezierCurve;
@@ -31,15 +31,12 @@ public class NonPlayerHelicopter extends Helicopter{
     @Override
     public void updateLocalTransforms(){
         heloBladeUpdate(-10d*speed);
-
         Point2D c = new Point2D(myTranslation.getTranslateX(),
                 myTranslation.getTranslateY());
         Point2D p = this.bezierCurve.evaluateCurve(t);
-
         double tx = p.getX() - c.getX();
         double ty = p.getY() - c.getY();
-
-        double theta = 360 - Math.toDegrees(Math.atan2(ty,tx));
+        double theta = 360 - Math.toDegrees(MathUtil.atan2(ty,tx));
 
         this.translate(tx,ty);
 
@@ -47,7 +44,8 @@ public class NonPlayerHelicopter extends Helicopter{
             t += 0.001*speed;
             rotate(heading - theta);
             heading = theta;
-        }else{
+        }
+        else{
             t=0;
         }
     }

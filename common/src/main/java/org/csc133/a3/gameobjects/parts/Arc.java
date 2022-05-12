@@ -13,6 +13,7 @@ public class Arc extends GameObject {
         this.startAngle=0;
         this.arcAngle=0;
     }
+
     public Arc(int color, int width, int height, int startAngle, int arcAngle){
         this(color,width,height,
                 0,0,
@@ -20,6 +21,7 @@ public class Arc extends GameObject {
                 0,
                 startAngle, arcAngle);
     }
+
     public Arc(int color,
                int width,
                int height,
@@ -27,12 +29,10 @@ public class Arc extends GameObject {
                float sx, float sy,
                float degreesRotation,
                int startAngle, int arcAngle){
-
         setColor(color);
         setDimension(new Dimension(width, height));
         this.startAngle=startAngle;
         this.arcAngle=arcAngle;
-
         translate(tx,ty);
         scale(sx,sy);
         rotate(degreesRotation);
@@ -50,7 +50,5 @@ public class Arc extends GameObject {
     }
 
     @Override
-    public void updateLocalTransforms() {
-
-    }
+    public void updateLocalTransforms() {}
 }

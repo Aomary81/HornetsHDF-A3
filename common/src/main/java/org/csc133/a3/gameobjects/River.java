@@ -21,9 +21,7 @@ public class River extends Fixed {
     }
 
     @Override
-    public void updateLocalTransforms() {
-
-    }
+    public void updateLocalTransforms() {}
 
     @Override
     public void localDraw(Graphics g,
@@ -36,4 +34,3 @@ public class River extends Fixed {
                 dimension.getWidth(), dimension.getHeight());
     }
 }
-

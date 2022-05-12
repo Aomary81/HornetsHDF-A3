@@ -13,6 +13,7 @@ public class Accelerate extends Command {
         super("Accel");
         this.gw = gw;
     }
+
     @Override
     public void actionPerformed(ActionEvent event){
         gw.adjustSpeed(1);

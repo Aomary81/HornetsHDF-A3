@@ -30,9 +30,11 @@ public abstract class Movable extends GameObject {
     public int getHeading(){
         if(heading - 270 <0){
             return (int) (heading +=360);
-        }else if(heading - 270 ==360){
+        }
+        else if(heading - 270 ==360){
             return (int) (heading-=360);
-        }else {
+        }
+        else {
             return (int) heading - 270;
         }
     }

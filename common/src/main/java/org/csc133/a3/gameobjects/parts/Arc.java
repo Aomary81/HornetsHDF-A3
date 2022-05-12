@@ -23,8 +23,8 @@ public class Arc extends GameObject {
     public Arc(int color,
                int width,
                int height,
-               float tx, float ty, // translate x/y
-               float sx, float sy, // scale x/y
+               float tx, float ty,
+               float sx, float sy,
                float degreesRotation,
                int startAngle, int arcAngle){
 

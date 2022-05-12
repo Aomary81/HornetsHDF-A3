@@ -8,26 +8,32 @@ import com.codename1.ui.geom.Point;
 public class River extends Fixed {
 
     public River(Dimension worldSize) {
+        this.worldSize=worldSize;
         setColor(ColorUtil.BLUE);
         setDimension(new Dimension(worldSize.getWidth(),
-                worldSize.getHeight()/6));
-        translate(0, getDimension().getHeight()*2.5);
+                worldSize.getHeight()/7));
+        translate(0,worldSize.getHeight()/7);
+        translate(worldSize.getWidth()/2,worldSize.getHeight()/2);
     }
 
-  @Override
+    public boolean isCollidingWith(Helicopter helicopter){
+        return super.isCollidingWith(helicopter);
+    }
+
+    @Override
     public void updateLocalTransforms() {
 
     }
 
     @Override
     public void localDraw(Graphics g,
-                          Point parentOrigin, Point screenOrigin) {
+                             Point parentOrigin, Point screenOrigin) {
         g.setColor(getColor());
         containerTranslate(g,parentOrigin);
         cn1ForwardPrimitiveTranslate(g,getDimension());
-        g.drawRect(screenOrigin.getX(),
-                screenOrigin.getY(),
-                getDimension().getWidth(), getDimension().getHeight());
+        g.drawRect(-dimension.getWidth()/2,
+                -dimension.getHeight()/2,
+                dimension.getWidth(), dimension.getHeight());
     }
 }
 

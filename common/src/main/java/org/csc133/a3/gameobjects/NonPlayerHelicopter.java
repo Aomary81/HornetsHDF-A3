@@ -4,6 +4,7 @@ import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.geom.Point;
 import com.codename1.ui.geom.Point2D;
 import com.codename1.util.MathUtil;
+import org.csc133.a3.gameobjects.FlightPath.*;
 
 public class NonPlayerHelicopter extends Helicopter{
     private FlightPath.BezierCurve bezierCurve;
@@ -11,15 +12,14 @@ public class NonPlayerHelicopter extends Helicopter{
     private double heading = 0;
     private int speed = 0;
 
-    public NonPlayerHelicopter(Point lZ,
-                               FlightPath.BezierCurve bezierCurve) {
+    public NonPlayerHelicopter(Point lZ, BezierCurve bezierCurve) {
         super(lZ, ColorUtil.GREEN);
         addHeloText();
         this.bezierCurve = bezierCurve;
         heading-= 90;
     }
 
-    public void setPath(FlightPath.BezierCurve bezierCurve) {
+    public void setPath(BezierCurve bezierCurve) {
         this.bezierCurve = bezierCurve;
         t=0;
     }

@@ -48,10 +48,10 @@ public class GameWorld {
         buildings = new BuildingCollection();
         fire = new FireCollection();
         rand = new Random().nextInt(10)+50;
-        bezierCurve = new FlightPath.BezierCurve(worldSize, 0);
-        bezierCurveRightSide = new FlightPath.BezierCurve(
+        bezierCurve = new BezierCurve(worldSize, 0);
+        bezierCurveRightSide = new BezierCurve(
                 worldSize, 1);
-        bezierCurveLeftSide = new FlightPath.BezierCurve(
+        bezierCurveLeftSide = new BezierCurve(
                 worldSize, 2);
         nonPlayerHelicopter = new NonPlayerHelicopter(new Point(
                 worldSize.getWidth()/2, worldSize.getHeight()/8),

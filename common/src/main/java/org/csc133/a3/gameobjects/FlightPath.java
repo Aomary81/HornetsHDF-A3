@@ -19,11 +19,11 @@ public abstract class FlightPath extends GameObject {
     public class Traversal extends BezierCurve{
         private double t;
         private boolean active = false;
-        private NonPlayerHelicopter nph;
+        private NonPlayerHelicopter nonPlayerHelicopter;
 
-        public Traversal(NonPlayerHelicopter nph){
-            super(nph.worldSize, 4);
-            this.nph = nph;
+        public Traversal(NonPlayerHelicopter nonPlayerHelicopter){
+            super(nonPlayerHelicopter.worldSize, 4);
+            this.nonPlayerHelicopter = nonPlayerHelicopter;
         }
 
         public void activate(){
@@ -49,12 +49,13 @@ public abstract class FlightPath extends GameObject {
             double ty = p.getY() - c.getY();
             double theta = 360 - Math.toDegrees(MathUtil.atan2(ty,tx));
 
-            nph.translate(tx,ty);
+            nonPlayerHelicopter.translate(tx,ty);
 
             if(t<=1){
-                t += 0.001*nph.getSpeed();
-                nph.rotate(nph.getHeading() - theta);
-                nph.setHeading((int) theta);
+                t += 0.001*nonPlayerHelicopter.getSpeed();
+                nonPlayerHelicopter.rotate(
+                        nonPlayerHelicopter.getHeading() - theta);
+                nonPlayerHelicopter.setHeading((int) theta);
             }
             else{
                 t=0;
@@ -74,9 +75,9 @@ public abstract class FlightPath extends GameObject {
         private Traversal primary;
         private Traversal correction;
 
-        public FlightControl(NonPlayerHelicopter nph) {
-            primary = new Traversal(nph);
-            correction = new Traversal(nph);
+        public FlightControl(NonPlayerHelicopter nonPlayerHelicopter) {
+            primary = new Traversal(nonPlayerHelicopter);
+            correction = new Traversal(nonPlayerHelicopter);
             primary.activate();
             correction.deactivate();
         }

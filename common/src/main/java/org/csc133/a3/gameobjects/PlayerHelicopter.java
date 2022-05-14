@@ -12,6 +12,6 @@ public class PlayerHelicopter extends Helicopter{
 
     @Override
     public void updateLocalTransforms() {
-        heloBladeUpdate(-10d*getSpeed());
+        heloBladeUpdate();
     }
 }

@@ -64,6 +64,8 @@ public class Helicopter extends Movable implements Steerable {
     }
 
     private static class HeloBlade extends Rectangle{
+        private double rotationSpeed = 0;
+
         public HeloBlade(){
             super(color1,
                     Helicopter.BLADE_LENGTH, Helicopter.BLADE_WIDTH,
@@ -71,7 +73,10 @@ public class Helicopter extends Movable implements Steerable {
                     1,1,42);
         }
 
-        public void updateLocalTransforms(double rotationSpeed){
+        public void updateLocalTransforms(){
+            if(rotationSpeed != -100){
+                rotationSpeed  = rotationSpeed - 5;
+            }
             this.rotate(rotationSpeed);
         }
 
@@ -374,7 +379,7 @@ public class Helicopter extends Movable implements Steerable {
         }
 
         public void accelerate(){
-            heloBladeUpdate(10d);
+            heloBladeUpdate();
         }
     }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -429,10 +434,11 @@ public class Helicopter extends Movable implements Steerable {
         }
     }
 
-    public void heloBladeUpdate(double currentSpeed){
-        heloBlade.updateLocalTransforms(currentSpeed);
+    public void heloBladeUpdate() {
+        if (canMove != false) {
+            heloBlade.updateLocalTransforms();
+        }
     }
-
     public void addHeloText(){
         heloParts.add(new HeloText());
     }
@@ -465,23 +471,6 @@ public class Helicopter extends Movable implements Steerable {
         }
     }
 
-    public boolean collisionAvoidance(Helicopter helicopter){
-        return helicopter.myTranslation.getTranslateX()
-                + helicopter.getWidth()/4 > myTranslation.getTranslateX()
-                - dimension.getWidth()/2 &&
-                helicopter.myTranslation.getTranslateX()
-                        - helicopter.getWidth()/4
-                        < myTranslation.getTranslateX()
-                        + dimension.getWidth()/2 &&
-                helicopter.myTranslation.getTranslateY()
-                        + helicopter.getHeight()/4
-                        > myTranslation.getTranslateY()
-                        - dimension.getHeight()/2 &&
-                helicopter.myTranslation.getTranslateY()
-                        - helicopter.getHeight()/4
-                        < myTranslation.getTranslateY()
-                        + dimension.getHeight()/2;
-    }
 
     public int getCurrentWaterInTank(){
         return water;

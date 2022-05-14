@@ -7,13 +7,13 @@ import com.codename1.util.MathUtil;
 import org.csc133.a3.gameobjects.FlightPath.*;
 
 public class NonPlayerHelicopter extends Helicopter{
-    private FlightPath.BezierCurve bezierCurve;
+    private BezierCurve bezierCurve;
     private double t = 0;
     private double heading = 0;
     private int speed = 0;
 
     public NonPlayerHelicopter(Point lZ, BezierCurve bezierCurve) {
-        super(lZ, ColorUtil.GREEN);
+        super(lZ, ColorUtil.rgb(255,204,246));
         addHeloText();
         this.bezierCurve = bezierCurve;
         heading-= 90;
@@ -30,7 +30,7 @@ public class NonPlayerHelicopter extends Helicopter{
 
     @Override
     public void updateLocalTransforms(){
-        heloBladeUpdate(-10d*speed);
+        heloBladeUpdate();
         Point2D c = new Point2D(myTranslation.getTranslateX(),
                 myTranslation.getTranslateY());
         Point2D p = this.bezierCurve.evaluateCurve(t);
@@ -48,5 +48,40 @@ public class NonPlayerHelicopter extends Helicopter{
         else{
             t=0;
         }
+    }
+    public boolean collision(Helicopter helicopter){
+        return helicopter.myTranslation.getTranslateX()
+                + helicopter.getWidth()/8 > myTranslation.getTranslateX()
+                - getWidth()/8 &&
+                helicopter.myTranslation.getTranslateX()
+                        - helicopter.getWidth()/8
+                        < myTranslation.getTranslateX()
+                        + getWidth()/8 &&
+                helicopter.myTranslation.getTranslateY()
+                        + helicopter.getHeight()/8
+                        > myTranslation.getTranslateY()
+                        - getHeight()/8 &&
+                helicopter.myTranslation.getTranslateY()
+                        - helicopter.getHeight()/8
+                        < myTranslation.getTranslateY()
+                        + getHeight()/8;
+    }
+
+    public boolean collisionAvoidance(Helicopter helicopter) {
+        return helicopter.myTranslation.getTranslateX()
+                + helicopter.getWidth()/8 > myTranslation.getTranslateX()
+                - getWidth()/8 &&
+                helicopter.myTranslation.getTranslateX()
+                        - helicopter.getWidth()/8
+                        < myTranslation.getTranslateX()
+                        + getWidth()/8 &&
+                helicopter.myTranslation.getTranslateY()
+                        + helicopter.getHeight()/8
+                        > myTranslation.getTranslateY()
+                        - getHeight()/8 &&
+                helicopter.myTranslation.getTranslateY()
+                        - helicopter.getHeight()/8
+                        < myTranslation.getTranslateY()
+                        + getHeight()/8;
     }
 }

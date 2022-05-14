@@ -172,7 +172,6 @@ public class GameWorld {
                 }
             }
         }
-
         if(nonPlayerHelicopter.getLocation().getX() ==
                 bezierCurve.getEndControlPoint().getX()
                 && nonPlayerHelicopter.getLocation().getY() ==
@@ -215,6 +214,7 @@ public class GameWorld {
             nonPlayerHelicopter.useFuel();
         }
         gameOver();
+        crashedHelicopter();
     }
 
     public ArrayList<GameObject> getGameObjectCollection() {
@@ -242,6 +242,18 @@ public class GameWorld {
                 && playerHelicopter.getSpeed() == 0){
             if(Dialog.show("Game Over", "You Won!\nScore: "
                             + playerHelicopter.getFuel() + "\nPlay Again?",
+                    "Heck Yea!", "Some Other Time")) {
+                new Game();
+            }
+            else {
+                quit();
+            }
+        }
+    }
+    void crashedHelicopter(){
+        if (nonPlayerHelicopter.collision(playerHelicopter)){
+            if(Dialog.show("Game Over",
+                    "You crashed into the NPC!" + "\nPlay Again?",
                     "Heck Yea!", "Some Other Time")) {
                 new Game();
             }

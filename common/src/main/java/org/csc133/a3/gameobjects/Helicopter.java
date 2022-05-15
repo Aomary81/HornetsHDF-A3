@@ -264,7 +264,7 @@ public class Helicopter extends Movable implements Steerable {
                     (FACE_MONOSPACE, STYLE_BOLD, SIZE_MEDIUM));
             g.drawString("F\t: " + getFuel(),
                     getWidth(), getHeight()/2 - 150);
-            g.drawString("W\t: " + getCurrentWaterInTank(),
+            g.drawString("W\t: " + getWaterCapacity(),
                     getWidth(), getHeight()/2 - 125);
         }
     }
@@ -472,13 +472,13 @@ public class Helicopter extends Movable implements Steerable {
     }
 
 
-    public int getCurrentWaterInTank(){
+    public int getWaterCapacity(){
         return water;
     }
 
-    public void useWater(){
+    public void fightFire(){
         if(water>0){
-            water-=100;
+            water-=getWaterCapacity();
         }
     }
 

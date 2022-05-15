@@ -50,8 +50,8 @@ public class Fire extends Fixed implements FireDispatch{
     }
 
     public void shrink(int water){
-        dimension.setWidth(dimension.getWidth() -8);
-        dimension.setHeight(dimension.getHeight() -8);
+        dimension.setWidth(dimension.getWidth() -25);
+        dimension.setHeight(dimension.getHeight() -25);
         this.myTranslation.translate(4,4);
     }
 

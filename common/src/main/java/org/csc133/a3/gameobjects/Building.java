@@ -57,6 +57,7 @@ public class Building extends GameObject{
         return currentValue = currentValue - loss;
     }
 
+
     public void adjustValue(int loss){
         this.value = loss;
     }

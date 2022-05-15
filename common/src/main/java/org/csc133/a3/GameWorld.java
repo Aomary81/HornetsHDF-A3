@@ -8,7 +8,6 @@ import com.codename1.ui.geom.Point;
 import com.codename1.ui.geom.Point2D;
 import org.csc133.a3.gameobjects.*;
 import org.csc133.a3.gameobjects.FlightPath.*;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -141,7 +140,8 @@ public class GameWorld {
                 getTotalDMG();
 
                 for (Building building : buildings){
-                    building.adjustValue(this.damagePercent*1000/3);
+                    building.adjustValue(this.damagePercent
+                            *getBuildingsValue(buildings)/3);
                     building.setDMG(this.damagePercent/3);
                     building.getCurrentValue(this.damagePercent/3);
                 }
@@ -153,7 +153,8 @@ public class GameWorld {
         }
 
         for (Building building : buildings){
-            building.adjustValue(this.damagePercent*1000/3);
+            building.adjustValue(this.damagePercent
+                    *getBuildingsValue(buildings)/3);
             building.setDMG(this.damagePercent/3);
         }
 
@@ -163,12 +164,13 @@ public class GameWorld {
 
         for(Fire spot: fire){
             if(spot.isCollidingWith(nonPlayerHelicopter)
-                    && nonPlayerHelicopter.getCurrentWaterInTank() > 1){
+                    && nonPlayerHelicopter.getWaterCapacity() > 1){
                 spot.biggerShrink();
 
-                if(nonPlayerHelicopter.getCurrentWaterInTank()>=500){
+                if(nonPlayerHelicopter.getWaterCapacity()>=500){
                     nonPlayerHelicopter.setWater(
-                            nonPlayerHelicopter.getCurrentWaterInTank()-500);
+                            nonPlayerHelicopter.getWaterCapacity()
+                                    -nonPlayerHelicopter.getWaterCapacity());
                 }
             }
         }
@@ -230,11 +232,11 @@ public class GameWorld {
     public void fight(){
         for(Fire spot: fire){
             if(spot.isCollidingWith(playerHelicopter)
-                    && playerHelicopter.getCurrentWaterInTank() > 1){
-                spot.shrink(playerHelicopter.getCurrentWaterInTank());
+                    && playerHelicopter.getWaterCapacity() > 1){
+                spot.shrink(playerHelicopter.getWaterCapacity());
             }
         }
-        playerHelicopter.useWater();
+        playerHelicopter.fightFire();
     }
 
     void gameOver(){
@@ -285,6 +287,14 @@ public class GameWorld {
         return String.valueOf(playerHelicopter.getHeading());
     }
 
+    public int getBuildingsValue(BuildingCollection buildings){
+        int value = 0;
+        for(Building building: buildings){
+            value = value + building.getCurrentValue();
+        }
+        return value;
+    }
+
     private void getTotalFireSize() {
         this.fireTotalSize = 0;
 
@@ -322,7 +332,7 @@ public class GameWorld {
     }
 
     public String getLoss() {
-        return ("$" + damagePercent * 1000);
+        return ("$" + damagePercent * getBuildingsValue(buildings));
     }
 
     public String getFireSize() {

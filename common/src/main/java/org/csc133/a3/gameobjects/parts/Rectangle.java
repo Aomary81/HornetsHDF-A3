@@ -19,13 +19,15 @@ public class Rectangle extends GameObject {
         translate(tx,ty);
         scale(sx,sy);
         rotate(degrees);
-    }
 
+    }
     @Override
     public void localDraw(Graphics g, Point parentOrigin,
                           Point screenOrigin) {
         g.setColor(getColor());
         containerTranslate(g,parentOrigin);
         cn1ForwardPrimitiveTranslate(g,getDimension());
+        g.drawRect(0,0,getWidth(),getHeight());
     }
+
 }

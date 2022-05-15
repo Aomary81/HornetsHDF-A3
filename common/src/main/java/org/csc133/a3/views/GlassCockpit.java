@@ -2,23 +2,16 @@ package org.csc133.a3.views;
 
 import com.codename1.ui.Container;
 import com.codename1.ui.Label;
+import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.GridLayout;
 import org.csc133.a3.GameWorld;
 
 public class GlassCockpit extends Container {
     GameWorld gw;
-    Label heading;
-    Label speed;
-    Label fuel;
-    Label fires;
-    Label fireSize;
-    Label damage;
-    Label loss;
+    Label heading, speed, fuel, fires, fireSize, damage, loss;
 
     public GlassCockpit(GameWorld gw) {
-        this.gw = gw;
-
-        this.getAllStyles().setBgTransparency(255);
+        this.gw =gw;
         this.setLayout(new GridLayout(2, 7));
         this.add("HEADING");
         this.add("SPEED");
@@ -43,15 +36,17 @@ public class GlassCockpit extends Container {
         this.add(fireSize);
         this.add(damage);
         this.add(loss);
+
     }
 
     public void update(){
         heading.setText(gw.getHeading());
         speed.setText(gw.getSpeed());
         fuel.setText(gw.getFuel());
-        fires.setText(gw.getFireCount());
-        fireSize.setText(gw.getFireSize());
+        fires.setText("" + gw.getFires());
+        fireSize.setText("" + gw.getFireSize());
         damage.setText(gw.getDamage());
-        loss.setText(gw.getLoss());
+        loss.setText("" + gw.getLoss());
+
     }
 }

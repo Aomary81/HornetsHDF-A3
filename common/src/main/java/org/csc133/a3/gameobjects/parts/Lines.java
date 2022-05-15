@@ -19,15 +19,15 @@ public class Lines  extends GameObject {
         scale(sx,sy);
         rotate(degrees);
     }
-
     @Override
-    public void updateLocalTransforms() {}
-
+    public void updateLocalTransforms() {
+    }
     @Override
     public void localDraw(Graphics g, Point parentOrigin, Point screenOrigin) {
         g.setColor(getColor());
         containerTranslate(g,parentOrigin);
         cn1ForwardPrimitiveTranslate(g,getDimension());
         g.drawLine(0,0,getWidth(),getHeight());
+
     }
 }

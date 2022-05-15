@@ -4,24 +4,24 @@ import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Point;
 
-public class FireCollection extends GameObjectCollection<Fire> {
+
+public class FireCollection extends GameObjectCollection<Fire>{
 
     public FireCollection(){
         super();
-        this.color = ColorUtil.MAGENTA;
+        setColor(ColorUtil.rgb(255, 0, 0));
     }
 
     @Override
-    public void updateLocalTransforms() {}
+    public void updateLocalTransforms() {
+
+    }
 
     @Override
     public void localDraw(Graphics g, Point parentOrigin,
-                             Point screenOrigin) {}
-
-    @Override
-    public void draw(Graphics g, Point originParent, Point originScreen) {
-        for(Fire fire : getGameObjects()){
-            fire.draw(g, originParent, originScreen);
+                          Point screenOrigin) {
+        for(Fire spot: getGameObjects()){
+            spot.draw(g, parentOrigin, screenOrigin);
         }
     }
 }

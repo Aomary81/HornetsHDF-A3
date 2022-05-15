@@ -4,33 +4,41 @@ import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.geom.Point;
+import com.codename1.ui.geom.Point2D;
 
-public class River extends Fixed {
+public class River extends Fixed{
+
 
     public River(Dimension worldSize) {
-        this.worldSize=worldSize;
-        setColor(ColorUtil.BLUE);
-        setDimension(new Dimension(worldSize.getWidth(),
-                worldSize.getHeight()/7));
-        translate(0,worldSize.getHeight()/7);
-        translate(worldSize.getWidth()/2,worldSize.getHeight()/2);
+        this.worldSize = worldSize;
+        this.setColor(ColorUtil.BLUE);
+        this.location = new Point2D(0, 0);
+        this.dimension = new Dimension(worldSize.getWidth(),
+                worldSize.getHeight());
+
     }
 
-    public boolean isCollidingWith(Helicopter helicopter){
-        return super.isCollidingWith(helicopter);
+
+    int getRiverNorth() {
+        return (int)location.getY() + (worldSize.getHeight()/9 * 2);
+    }
+
+    int getRiverSouth() {
+        return (getRiverNorth() + dimension.getHeight()/9 * 2);
     }
 
     @Override
-    public void updateLocalTransforms() {}
+    public void updateLocalTransforms() {
+    }
 
     @Override
-    public void localDraw(Graphics g,
-                             Point parentOrigin, Point screenOrigin) {
+    public void localDraw(Graphics g, Point parentOrigin, Point screenOrigin) {
+        g.clearRect(parentOrigin.getX(), parentOrigin.getY(),
+                worldSize.getWidth(), worldSize.getHeight());
         g.setColor(getColor());
-        containerTranslate(g,parentOrigin);
-        cn1ForwardPrimitiveTranslate(g,getDimension());
-        g.drawRect(-dimension.getWidth()/2,
-                -dimension.getHeight()/2,
-                dimension.getWidth(), dimension.getHeight());
+        g.drawRect(parentOrigin.getX() + (int)location.getX(),
+                (parentOrigin.getY() + (worldSize.getHeight()/9 *2)),
+                dimension.getWidth(),
+                dimension.getHeight()/9 * 2);
     }
 }

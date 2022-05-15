@@ -66,9 +66,13 @@ public abstract class GameObject{
     protected Transform preLTTransform(Graphics g, Point originScreen){
         Transform gXform = Transform.makeIdentity();
 
+        // get the current transform and save it
+        // PreLTTransforms
         g.getTransform(gXform);
         gOrigXform = gXform.copy();
 
+        // move the drawing coordinates back
+        //
         gXform.translate(originScreen.getX(),originScreen.getY());
         return gXform;
     }
@@ -76,6 +80,8 @@ public abstract class GameObject{
     public abstract void updateLocalTransforms();
 
     protected void localTransforms(Transform gxForm){
+        // append Objects's LTs to the graphics object's transform
+        // localTransforms
         gxForm.translate(myTranslation.getTranslateX(),
                 myTranslation.getTranslateY());
         gxForm.concatenate(myRotation);
@@ -84,11 +90,15 @@ public abstract class GameObject{
 
     protected void postLTTransform(Graphics g, Point originScreen,
                                    Transform gXform) {
+        // move the drawing coordinates so that the
+        // local origin coincides with the screen origin postLTTransforms
         gXform.translate(-originScreen.getX(),-originScreen.getY());
         g.setTransform(gXform);
     }
 
     protected void restoreOriginalTransform(Graphics g) {
+        // restore the original xform
+        // restoreLTTransforms
         g.setTransform(gOrigXform);
     }
 

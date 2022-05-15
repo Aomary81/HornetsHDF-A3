@@ -1,6 +1,6 @@
-org\csc133\a3\commands\Right.class
 org\csc133\a3\gameobjects\Helicopter$HeloEngineBlock.class
 org\csc133\a3\gameobjects\Helicopter$HeloRearRotorConnector.class
+org\csc133\a3\interfaces\Extinguished.class
 org\csc133\a3\commands\Brake.class
 org\csc133\a3\commands\Accelerate.class
 org\csc133\a3\gameobjects\Helicopter$HeloUpperLeg.class
@@ -10,14 +10,14 @@ org\csc133\a3\gameobjects\River.class
 org\csc133\a3\gameobjects\Helicopter$HeloTailSide.class
 org\csc133\a3\views\MapView.class
 org\csc133\a3\gameobjects\Helicopter$HeloFirstRearBrace.class
-org\csc133\a3\commands\StartEngine.class
 org\csc133\a3\gameobjects\BuildingCollection.class
 org\csc133\a3\AppMain.class
+org\csc133\a3\interfaces\Burning.class
 org\csc133\a3\gameobjects\GameObject.class
 org\csc133\a3\gameobjects\GameObjectCollection$GameObjectIterator.class
 org\csc133\a3\commands\Exit.class
 org\csc133\a3\gameobjects\parts\Rectangle.class
-org\csc133\a3\commands\Left.class
+org\csc133\a3\interfaces\FireState.class
 org\csc133\a3\gameobjects\Helicopter$HeloBubble.class
 org\csc133\a3\gameobjects\Helicopter$HeloBladeShaft.class
 org\csc133\a3\views\GlassCockpit.class
@@ -29,8 +29,10 @@ org\csc133\a3\commands\Drink.class
 org\csc133\a3\views\ControlCluster.class
 org\csc133\a3\gameobjects\Movable.class
 org\csc133\a3\commands\Fight.class
+org\csc133\a3\commands\TurnRight.class
 org\csc133\a3\gameobjects\Helicopter$HeloTailTop.class
 org\csc133\a3\gameobjects\Fire.class
+org\csc133\a3\interfaces\UnStarted.class
 org\csc133\a3\gameobjects\Helicopter.class
 org\csc133\a3\gameobjects\Helipad.class
 org\csc133\a3\gameobjects\parts\Arc.class
@@ -44,3 +46,4 @@ org\csc133\a3\gameobjects\GameObjectCollection.class
 org\csc133\a3\gameobjects\parts\Lines.class
 org\csc133\a3\gameobjects\Building.class
 org\csc133\a3\gameobjects\Fixed.class
+org\csc133\a3\commands\TurnLeft.class

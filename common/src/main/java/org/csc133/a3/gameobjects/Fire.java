@@ -6,126 +6,88 @@ import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.geom.Point;
 import com.codename1.ui.geom.Point2D;
-import com.codename1.util.MathUtil;
-import org.csc133.a3.interfaces.FireDispatch;
-import org.csc133.a3.views.MapView;
-import static com.codename1.ui.CN.*;
+import org.csc133.a3.interfaces.FireState;
+import org.csc133.a3.interfaces.UnStarted;
 
 import java.util.Random;
 
-public class Fire extends Fixed implements FireDispatch{
-    private int greatestSize;
-    private int size;
-    private boolean fireStart;
-    private int buildingID;
-    private boolean selected;
+import static com.codename1.ui.CN.*;
 
-    public Fire(Dimension worldSize, int buildingID){
+public class Fire extends Fixed {
+    private int fireSize;
+    private Random r;
+    private FireState state;
+
+    public Fire(Dimension worldSize) {
+        this.state = new UnStarted();
+        r = new Random();
+        fireSize = 3 + r.nextInt(4);
         this.worldSize = worldSize;
-        this.color = ColorUtil.MAGENTA;
-        this.buildingID = buildingID;
-        size = new Random().nextInt(4) + 9;
-        greatestSize = size;
-        fireStart = false;
-        selected = false;
-        setDimension(new Dimension(size,size));
-        translate(-getDimension().getWidth(),-getDimension().getHeight());
+        setColor(ColorUtil.MAGENTA);
+        this.location = new Point2D(0,0);
+        this.dimension = new Dimension(fireSize, fireSize);
+
     }
 
-    public boolean isCollidingWith(Helicopter helicopter){
-        return super.isCollidingWith(helicopter);
+    public void grow() {
+        fireSize = fireSize + r.nextInt(5);
     }
 
-    public void grow(){
-        if (dimension.getWidth() < 25) {
-            dimension.setWidth(dimension.getWidth() + 4);
-            dimension.setHeight(dimension.getHeight() + 4);
-            size += 4;
-            myTranslation.translate(- 2, - 2);
-        }
-
-        if(size > greatestSize){
-            greatestSize = size;
-        }
+    public int shrink(int water) {
+        fireSize = fireSize - (water / 2);
+        return fireSize;
     }
 
-    public void shrink(int water){
-        dimension.setWidth(dimension.getWidth() -25);
-        dimension.setHeight(dimension.getHeight() -25);
-        this.myTranslation.translate(4,4);
+    public double areaOfFire() {
+        return Math.PI * fireSize / 2 * fireSize / 2;
     }
 
-    public void biggerShrink(){
-        dimension.setWidth(5);
-        dimension.setHeight(5);
+    int getFireX() {
+        return (int) location.getX();
     }
 
-    public void start(){
-        fireStart = true;
+    int getFireY() {
+        return (int) location.getY();
     }
 
-    public boolean begin(){
-        return fireStart;
+    public int getFireSize() {
+        return fireSize;
     }
 
-    public int getSize(){
-        return this.dimension.getWidth();
+    public void setLocationX(int locX) {
+        location.setX(locX);
     }
 
-    public int getMaxSize(){
-        return 30;
-    }
-
-    public int getGreatestSize(){
-        return greatestSize;
-    }
-
-    public int getBuildingID(){
-        return this.buildingID;
-    }
-
-    public double currentSize() {
-        double x = (MathUtil.pow(dimension.getWidth()/2, 2) * Math.PI);
-        return x;
+    public void setLocationY(int locY) {
+        location.setY(locY);
     }
 
     @Override
-    public boolean contains(Point2D p) {
-        return false;
-    }
-
-    @Override
-    public void select(boolean selected) {
-        selected = true;
-    }
-
-    @Override
-    public boolean isSelected() {
-        return false;
-    }
-
-    @Override
-    public void update(Object o) {
-        if(o instanceof MapView){
-            MapView f = (MapView) o;
-        }
-    }
-
-    @Override
-    public void updateLocalTransforms() {}
-
-    @Override
-    public void localDraw(Graphics g, Point parentOrigin, Point screenOrigin){
+    public void localDraw(Graphics g, Point parentOrigin,
+                          Point screenOrigin){
         g.setColor(getColor());
-        containerTranslate(g,parentOrigin);
-        cn1ForwardPrimitiveTranslate(g,getDimension());
-        g.fillArc(getDimension().getWidth()/2, parentOrigin.getY()/2,
-                getWidth(), getHeight(),
-                0, 360);
-        g.setFont(Font.createSystemFont
-                (FACE_MONOSPACE, STYLE_BOLD, SIZE_MEDIUM));
-        g.scale(1,-1);
-        g.drawString("" + getSize(), getMaxSize()+ getSize(),
-                getMaxSize() - worldSize.getHeight()/4);
+        g.fillArc(parentOrigin.getX() + (int) location.getX(),
+                parentOrigin.getY() + (int) location.getY(),
+                fireSize/2, fireSize/2, 0, 360);
+        g.setFont(Font.createSystemFont(FACE_MONOSPACE, STYLE_BOLD,
+                SIZE_MEDIUM));
+        g.drawString("" + fireSize,
+                parentOrigin.getX() + (int) location.getX()
+                        + (fireSize/4 * 3),
+                parentOrigin.getY() + (int) location.getY()
+                        + (fireSize/4 * 3));
+
+    }
+    public void setState(FireState state){
+        this.state = state;
+    }
+
+    public void getState(){
+        this.state.nextState(this);
+    }
+
+    @Override
+    public void updateLocalTransforms() {
+
     }
 }
